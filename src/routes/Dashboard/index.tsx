@@ -1,16 +1,58 @@
-import { addDays } from 'date-fns/esm'
 import dayjs from 'dayjs'
+import { axios } from 'hooks/worker'
 import { useState } from 'react'
+import { useQuery } from 'react-query'
+import { useRecoilState } from 'recoil'
+import { byChannelDataResultState, byChannelFetchState, dailyDataResultState, dailyFetchState } from 'states/dashboard'
 import CalendarModal from './CalendarModal/CalendarModal'
 import styles from './dashboard.module.scss'
 
-const defaultStartDate = dayjs(new Date()).format('YYYY-MM-DD')
-const defaultEndDate = dayjs(addDays(new Date(), 1)).format('YYYY-MM-DD')
+// TODO 달력 디폴트 날짜 설정
+const defaultStartDate = dayjs(new Date(2022, 1, 1)).format('YYYY-MM-DD')
+const defaultEndDate = dayjs(new Date(2022, 1, 2)).format('YYYY-MM-DD')
 
 const Dashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [currentStartDate, setCurrentStartDate] = useState(defaultStartDate)
   const [currentEndDate, setCurrentEndDate] = useState(defaultEndDate)
+  const [dailyFetch, setDailyFetch] = useRecoilState(dailyFetchState)
+  const [byChannelFetch, setByChannelFetch] = useRecoilState(byChannelFetchState)
+  const [dailyData, setDailyData] = useRecoilState(dailyDataResultState)
+  const [byChannelData, setByChannelData] = useRecoilState(byChannelDataResultState)
+
+  // TODO임시 데이터 호출 로직
+  const getDailyData = () => {
+    return axios
+      .get(`http://localhost:3004/daily?date_gte=${currentStartDate}&date_lte=${currentEndDate}`)
+      .then((res) => setDailyData(res.data))
+  }
+
+  const getByChannelData = () => {
+    return axios
+      .get(`http://localhost:3004/byChannel?date_gte=${currentStartDate}&date_lte=${currentEndDate}`)
+      .then((res) => setByChannelData(res.data))
+  }
+
+  const { data: dailyDataResult } = useQuery(['getDailyData', currentStartDate, currentEndDate], getDailyData, {
+    useErrorBoundary: true,
+    enabled: !!dailyFetch,
+    staleTime: 6 * 50 * 1000,
+    onSuccess: () => {
+      setDailyFetch(false)
+    },
+  })
+  const { data: byChannelDataResult } = useQuery(
+    ['getByChannelData', currentStartDate, currentEndDate],
+    getByChannelData,
+    {
+      useErrorBoundary: true,
+      enabled: !!byChannelFetch,
+      staleTime: 6 * 50 * 1000,
+      onSuccess: () => {
+        setByChannelFetch(false)
+      },
+    }
+  )
 
   const handleOpenModal = () => {
     setIsModalOpen(true)

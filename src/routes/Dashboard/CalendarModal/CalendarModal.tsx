@@ -7,6 +7,8 @@ import { Dispatch, SetStateAction, useState } from 'react'
 import { addDays } from 'date-fns/esm'
 import { ko } from 'date-fns/locale'
 import dayjs from 'dayjs'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { byChannelFetchState, dailyFetchState } from 'states/dashboard'
 
 interface IProps {
   setIsModalOpen: Dispatch<SetStateAction<boolean>>
@@ -17,17 +19,20 @@ interface IProps {
 const CalendarModal = ({ setIsModalOpen, setCurrentStartDate, setCurrentEndDate }: IProps) => {
   const [dateRange, setDateRange] = useState<any>([
     {
-      startDate: new Date(),
-      endDate: addDays(new Date(), 1),
+      startDate: new Date(2022, 1, 1),
+      endDate: new Date(2022, 1, 2),
       key: 'selection',
     },
   ])
 
+  const setDailyFetch = useSetRecoilState(dailyFetchState)
+  const setByChannelFetch = useSetRecoilState(byChannelFetchState)
+
   const startDateTransformed = dayjs(dateRange[0].startDate).format('YYYY-MM-DD')
   const endDateTransformed = dayjs(dateRange[0].endDate).format('YYYY-MM-DD')
 
-  console.log(startDateTransformed)
-  console.log(endDateTransformed)
+  // console.log(startDateTransformed)
+  // console.log(endDateTransformed)
 
   const handleModalClose = () => {
     setIsModalOpen(false)
@@ -36,6 +41,8 @@ const CalendarModal = ({ setIsModalOpen, setCurrentStartDate, setCurrentEndDate 
   const handleGetData = () => {
     setCurrentStartDate(startDateTransformed)
     setCurrentEndDate(endDateTransformed)
+    setDailyFetch(true)
+    setByChannelFetch(true)
     setIsModalOpen(false)
   }
 
