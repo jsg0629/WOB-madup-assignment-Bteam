@@ -3,7 +3,7 @@ import CurrentStatusOfMedium from './MediaCurrentStatus/CurrentStatusOfMedium'
 
 const Dashboard = (): JSX.Element => {
   return (
-    <div>
+    <div className={styles.dashboardContainer}>
       <div>Dashboard</div>
       <CurrentStatusOfMedium />
     </div>
