@@ -1,15 +1,13 @@
-import dayjs from 'dayjs'
-
 import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { useRecoilState } from 'recoil'
+import dayjs from 'dayjs'
 
 import { axios } from 'hooks/worker'
 import { byChannelDataResultState, byChannelFetchState, dailyDataResultState, dailyFetchState } from 'states/dashboard'
 
 import CalendarModal from './CalendarModal/CalendarModal'
 import AdTop from './AdTop'
-
 import styles from './dashboard.module.scss'
 
 // TODO 달력 디폴트 날짜 설정
@@ -62,6 +60,12 @@ const Dashboard = () => {
   const handleOpenModal = () => {
     setIsModalOpen(true)
   }
+
+  // 선택하신 기간에 대해서
+  // dailyData: 날짜별 데이터
+  // byChannelData: 채널 별 데이터
+  console.log(dailyData)
+  console.log(byChannelData)
 
   return (
     <div>

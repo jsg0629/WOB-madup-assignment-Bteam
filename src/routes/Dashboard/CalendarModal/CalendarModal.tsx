@@ -1,14 +1,14 @@
-import 'react-date-range/dist/styles.css'
-import 'react-date-range/dist/theme/default.css'
-import styles from './calendarModal.module.scss'
-
-import { DateRange } from 'react-date-range'
 import { Dispatch, SetStateAction, useState } from 'react'
-import { addDays } from 'date-fns/esm'
+import { useSetRecoilState } from 'recoil'
+import { DateRange } from 'react-date-range'
 import { ko } from 'date-fns/locale'
 import dayjs from 'dayjs'
-import { useRecoilValue, useSetRecoilState } from 'recoil'
+
 import { byChannelFetchState, dailyFetchState } from 'states/dashboard'
+
+import styles from './calendarModal.module.scss'
+import 'react-date-range/dist/styles.css'
+import 'react-date-range/dist/theme/default.css'
 
 interface IProps {
   setIsModalOpen: Dispatch<SetStateAction<boolean>>
