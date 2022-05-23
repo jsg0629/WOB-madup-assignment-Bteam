@@ -1,7 +1,7 @@
 /* eslint-disable react/style-prop-object */
 import React from 'react'
 import styles from './CurrentStatusOfMedium.module.scss'
-import { VictoryBar, VictoryChart, VictoryAxis, VictoryStack } from 'victory'
+import { VictoryBar, VictoryChart, VictoryAxis, VictoryStack, VictoryTheme } from 'victory'
 import { dummyChanneldata } from './dummyChannelData'
 
 const CurrentStatusOfMedium = () => {
@@ -119,13 +119,13 @@ const CurrentStatusOfMedium = () => {
     <div className={styles.currentStatusOfMediumContainer}>
       <div className={styles.rechartsContainer}>
         <div className={styles.rechartsWrapper}>
-          <VictoryChart domainPadding={30}>
+          <VictoryChart width={800} height={400} domainPadding={30} theme={VictoryTheme.material}>
             <VictoryAxis
               tickValues={['sales', 'click', 'cost', 'imp', 'convValue']}
               tickFormat={['매출', '광고비', '노출 수', '클릭 수', '전환 수']}
             />
             <VictoryAxis dependentAxis tickFormat={(x) => `${x}%`} />
-            <VictoryStack>
+            <VictoryStack colorScale='qualitative'>
               <VictoryBar data={createVictoryBarData('google')} x='xAxis' y='yAxis' />
               <VictoryBar data={createVictoryBarData('facebook')} x='xAxis' y='yAxis' />
               <VictoryBar data={createVictoryBarData('naver')} x='xAxis' y='yAxis' />

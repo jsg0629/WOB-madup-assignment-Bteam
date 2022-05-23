@@ -3,10 +3,9 @@
 .currentStatusOfMediumContainer {
   display: flex;
   flex-direction: column;
-  width: 950px;
-  height: 850px;
+  align-items: center;
+  width: 1040px;
   padding: 40px;
-  margin-left: 40px;
   background-color: colors.$CONTENTS_BACKGROUND;
   border-radius: 20px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 10%);
@@ -17,6 +16,15 @@
       min-width: 100%;
       margin-top: 40px;
       table-layout: fixed;
+    }
+  }
+
+  .rechartsContainer {
+    .rechartsWrapper {
+      svg {
+        width: 800px;
+        height: 500px;
+      }
     }
   }
 }
