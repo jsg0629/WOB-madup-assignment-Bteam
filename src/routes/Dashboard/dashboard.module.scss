@@ -1,0 +1,22 @@
+.header {
+  display: flex;
+}
+
+.calendarContainer {
+  position: relative;
+  display: flex;
+  margin-left: auto;
+}
+
+.calendarOpenButton {
+  width: 200px;
+  margin-right: 100px;
+  margin-left: auto;
+  border: none;
+}
+
+.calendar {
+  position: absolute;
+  top: 0;
+  left: -450px;
+}

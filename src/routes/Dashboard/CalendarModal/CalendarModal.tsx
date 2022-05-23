@@ -1,77 +1,64 @@
+import 'react-date-range/dist/styles.css'
+import 'react-date-range/dist/theme/default.css'
+import styles from './calendarModal.module.scss'
+
+import { DateRange } from 'react-date-range'
+import { Dispatch, SetStateAction, useState } from 'react'
+import { addDays } from 'date-fns/esm'
+import { ko } from 'date-fns/locale'
 import dayjs from 'dayjs'
-import { useState } from 'react'
 
-import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
-import { ko } from 'date-fns/esm/locale'
+interface IProps {
+  setIsModalOpen: Dispatch<SetStateAction<boolean>>
+  setCurrentStartDate: Dispatch<SetStateAction<string>>
+  setCurrentEndDate: Dispatch<SetStateAction<string>>
+}
 
-const CalendarModal = () => {
-  const [startDate, setStartDate] = useState<Date | null>(new Date())
-  const [endDate, setEndDate] = useState<Date | null>(null)
-  const transformedStartDate = dayjs(startDate).format('YYYY-MM-DD')
-  const transformedEndDate = dayjs(endDate).format('YYYY-MM-DD')
+const CalendarModal = ({ setIsModalOpen, setCurrentStartDate, setCurrentEndDate }: IProps) => {
+  const [dateRange, setDateRange] = useState<any>([
+    {
+      startDate: new Date(),
+      endDate: addDays(new Date(), 1),
+      key: 'selection',
+    },
+  ])
 
-  console.log(transformedStartDate)
-  console.log(transformedEndDate)
+  const startDateTransformed = dayjs(dateRange[0].startDate).format('YYYY-MM-DD')
+  const endDateTransformed = dayjs(dateRange[0].endDate).format('YYYY-MM-DD')
 
-  const onChange = (dates: any) => {
-    const [start, end] = dates
-    setStartDate(start)
-    setEndDate(end)
+  console.log(startDateTransformed)
+  console.log(endDateTransformed)
+
+  const handleModalClose = () => {
+    setIsModalOpen(false)
+  }
+
+  const handleGetData = () => {
+    setCurrentStartDate(startDateTransformed)
+    setCurrentEndDate(endDateTransformed)
+    setIsModalOpen(false)
   }
 
   return (
-    // <DatePicker
-    //   inline
-    //   selected={startDate}
-    //   monthsShown={2}
-    //   selectsRange
-    //   startDate={startDate}
-    //   endDate={endDate}
-    //   onChange={onChange}
-    // />
-    <div style={{ width: '300px', display: 'flex' }}>
-      <DatePicker
-        renderCustomHeader={({ monthDate, customHeaderCount, decreaseMonth, increaseMonth }) => (
-          <div>
-            <button
-              type='button'
-              aria-label='Previous Month'
-              className='react-datepicker__navigation react-datepicker__navigation--previous'
-              style={customHeaderCount === 1 ? { visibility: 'hidden' } : undefined}
-              onClick={decreaseMonth}
-            >
-              <span className='react-datepicker__navigation-icon react-datepicker__navigation-icon--previous'>
-                {'<'}
-              </span>
-            </button>
-            <span className='react-datepicker__current-month'>
-              {monthDate.toLocaleString('en-US', {
-                month: 'long',
-                year: 'numeric',
-              })}
-            </span>
-            <button
-              type='button'
-              aria-label='Next Month'
-              className='react-datepicker__navigation react-datepicker__navigation--next'
-              style={customHeaderCount === 0 ? { visibility: 'hidden' } : undefined}
-              onClick={increaseMonth}
-            >
-              <span className='react-datepicker__navigation-icon react-datepicker__navigation-icon--next'>{'>'}</span>
-            </button>
-          </div>
-        )}
-        selected={startDate}
-        selectsRange
-        startDate={startDate}
-        endDate={endDate}
-        onChange={onChange}
-        monthsShown={2}
+    <div className={styles.calendarModalContainer}>
+      <DateRange
+        editableDateInputs={false}
+        onChange={(item) => setDateRange([item.selection])}
+        ranges={dateRange}
+        locale={ko}
+        months={2}
+        direction='horizontal'
+        dateDisplayFormat='yyyy년 MM월 dd일'
+        // showDateDisplay={false}
       />
-      <button style={{ marginTop: '30px', width: '100px', border: '1px solid black' }} type='button'>
-        fetch Data
-      </button>
+      <div>
+        <button type='button' onClick={handleModalClose}>
+          닫기
+        </button>
+        <button type='button' onClick={handleGetData}>
+          적용
+        </button>
+      </div>
     </div>
   )
 }
