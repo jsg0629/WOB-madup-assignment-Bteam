@@ -1,6 +1,6 @@
 import AdTop from './AdTop'
 import styles from './dashboard.module.scss'
-import CurrentStatusOfMedium from './MediaCurrentStatus/CurrentStatusOfMedium'
+import CurrentStatusOfMedium from './CurrentStatusOfMedium/CurrentStatusOfMedium'
 
 const Dashboard = (): JSX.Element => {
   return (
