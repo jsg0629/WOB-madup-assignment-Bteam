@@ -1,10 +1,15 @@
 import dayjs from 'dayjs'
-import { axios } from 'hooks/worker'
+
 import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { useRecoilState } from 'recoil'
+
+import { axios } from 'hooks/worker'
 import { byChannelDataResultState, byChannelFetchState, dailyDataResultState, dailyFetchState } from 'states/dashboard'
+
 import CalendarModal from './CalendarModal/CalendarModal'
+import AdTop from './AdTop'
+
 import styles from './dashboard.module.scss'
 
 // TODO 달력 디폴트 날짜 설정
@@ -77,6 +82,12 @@ const Dashboard = () => {
           )}
         </div>
       </header>
+      <div className={styles.adSectionWrapper}>
+        <h2 className={styles.adSectionTitle}>통합 광고 현황</h2>
+        <div className={styles.boardWrapper}>
+          <AdTop />
+        </div>
+      </div>
     </div>
   )
 }
