@@ -9,6 +9,7 @@ import { byChannelDataResultState, byChannelFetchState, dailyDataResultState, da
 import CalendarModal from './CalendarModal/CalendarModal'
 import AdTop from './AdTop'
 import styles from './dashboard.module.scss'
+import CurrentStatusOfMedium from './CurrentStatusOfMedium'
 
 // TODO 달력 디폴트 날짜 설정
 const defaultStartDate = dayjs(new Date(2022, 1, 1)).format('YYYY-MM-DD')
@@ -92,8 +93,9 @@ const Dashboard = () => {
           <AdTop />
         </div>
       </div>
+      <h2 className={styles.currentStatusOfMediumTitle}>매체 현황</h2>
+      <CurrentStatusOfMedium />
     </div>
   )
 }
-
 export default Dashboard
