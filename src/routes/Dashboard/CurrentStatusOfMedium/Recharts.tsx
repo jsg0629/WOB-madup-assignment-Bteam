@@ -18,7 +18,7 @@ const Recharts = ({ createVictoryBarData }: { createVictoryBarData: Function }) 
   }
   return (
     <div className={styles.rechartsWrapper}>
-      <VictoryChart width={1100} height={400} domainPadding={40} theme={VictoryTheme.material}>
+      <VictoryChart width={1300} height={400} domainPadding={{ x: [150, 150], y: 1 }} theme={VictoryTheme.material}>
         <VictoryAxis
           tickValues={['sales', 'cost', 'imp', 'click', 'convValue']}
           tickFormat={['매출', '광고비', '노출 수', '클릭 수', '전환 수']}

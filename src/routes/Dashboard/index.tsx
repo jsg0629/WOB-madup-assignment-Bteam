@@ -3,7 +3,6 @@ import { useQuery } from 'react-query'
 import { useRecoilState } from 'recoil'
 import dayjs from 'dayjs'
 
-import { axios } from 'hooks/worker'
 import { byChannelDataResultState, byChannelFetchState, dailyDataResultState, dailyFetchState } from 'states/dashboard'
 
 import CalendarModal from './CalendarModal/CalendarModal'
@@ -11,7 +10,6 @@ import AdTop from './AdTop'
 import Chart from './Chart'
 import styles from './dashboard.module.scss'
 import CurrentStatusOfMedium from './CurrentStatusOfMedium'
-import { IByChannelData } from 'types/dashboard'
 import { getDailyData, getByChannelData } from 'services/ads'
 
 // TODO 달력 디폴트 날짜 설정
@@ -84,7 +82,7 @@ const Dashboard = () => {
           )}
         </div>
       </header>
-      <main>
+      <main className={styles.main}>
         <div className={styles.adSectionWrapper}>
           <h2 className={styles.adSectionTitle}>통합 광고 현황</h2>
           <div className={styles.boardWrapper}>
