@@ -11,6 +11,8 @@ import AdTop from './AdTop'
 import Chart from './Chart'
 import styles from './dashboard.module.scss'
 import CurrentStatusOfMedium from './CurrentStatusOfMedium'
+import { IByChannelData } from 'types/dashboard'
+import { getDailyData, getByChannelData } from 'services/ads'
 
 // TODO 달력 디폴트 날짜 설정
 const defaultStartDate = dayjs(new Date(2022, 1, 1)).format('YYYY-MM-DD')
@@ -25,31 +27,26 @@ const Dashboard = () => {
   const [dailyData, setDailyData] = useRecoilState(dailyDataResultState)
   const [byChannelData, setByChannelData] = useRecoilState(byChannelDataResultState)
 
-  // TODO임시 데이터 호출 로직
-  const getDailyData = () => {
-    return axios
-      .get(`http://localhost:3004/daily?date_gte=${currentStartDate}&date_lte=${currentEndDate}`)
-      .then((res) => setDailyData(res.data))
-  }
-
-  const getByChannelData = () => {
-    return axios
-      .get(`http://localhost:3004/byChannel?date_gte=${currentStartDate}&date_lte=${currentEndDate}`)
-      .then((res) => setByChannelData(res.data))
-  }
-
-  const { data: dailyDataResult } = useQuery(['getDailyData', currentStartDate, currentEndDate], getDailyData, {
-    useErrorBoundary: true,
-    enabled: !!dailyFetch,
-    staleTime: 6 * 50 * 1000,
-    onSuccess: () => {
-      setDailyFetch(false)
+  const { data: dailyDataResult } = useQuery(
+    ['getDailyData', currentStartDate, currentEndDate],
+    () => {
+      getDailyData(currentStartDate, currentEndDate, setDailyData)
     },
-  })
+    {
+      useErrorBoundary: true,
+      enabled: !!dailyFetch,
+      staleTime: 6 * 50 * 1000,
+      onSuccess: () => {
+        setDailyFetch(false)
+      },
+    }
+  )
 
   const { data: byChannelDataResult } = useQuery(
     ['getByChannelData', currentStartDate, currentEndDate],
-    getByChannelData,
+    () => {
+      getByChannelData(currentStartDate, currentEndDate, setByChannelData)
+    },
     {
       useErrorBoundary: true,
       enabled: !!byChannelFetch,
@@ -67,8 +64,6 @@ const Dashboard = () => {
   // 선택하신 기간에 대해서
   // dailyData: 날짜별 데이터
   // byChannelData: 채널 별 데이터
-  console.log(dailyData)
-  console.log(byChannelData)
 
   return (
     <div>

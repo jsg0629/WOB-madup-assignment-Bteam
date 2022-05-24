@@ -1,135 +1,140 @@
 /* eslint-disable react/style-prop-object */
-import React from 'react'
 import styles from './CurrentStatusOfMedium.module.scss'
-import { VictoryBar, VictoryChart, VictoryAxis, VictoryStack, VictoryTheme } from 'victory'
-import { dummyChanneldata } from './dummyChannelData'
+import { VictoryBar, VictoryChart, VictoryAxis, VictoryStack, VictoryTheme, VictoryVoronoiContainer } from 'victory'
+import { useRecoilState } from 'recoil'
+import { byChannelDataResultState } from 'states/dashboard'
+import { roundToTwo, fomatting } from 'utils/num'
 
 const CurrentStatusOfMedium = () => {
-  const addedSalesKeyData = dummyChanneldata.map((el) => {
-    el.sales = (el.roas * el.cost) / 100
-    return el
-  })
+  const [byChannelData] = useRecoilState(byChannelDataResultState)
+  console.log(byChannelData)
 
   const reduceData = (_channel: string) => {
-    return addedSalesKeyData
-      .filter((el: { channel: string }) => el.channel === _channel)
-      .reduce((acc, cur) => {
-        if (cur.sales !== undefined && acc.sales !== undefined) {
-          return {
-            sales: cur.sales + acc.sales,
-            channel: cur.channel,
-            imp: cur.imp + acc.imp,
-            click: cur.click + acc.click,
-            cost: cur.cost + acc.cost,
-            convValue: cur.convValue + acc.convValue,
-            ctr: cur.ctr + acc.ctr,
-            cpc: cur.cpc + acc.cpc,
-            roas: cur.roas + acc.roas,
-          }
-        }
+    const fiteredDate = byChannelData.filter((el: { channel: string }) => el.channel === _channel)
+    return fiteredDate.reduce((acc, cur, i) => {
+      if (i === fiteredDate.length - 1) {
         return {
+          sales: Math.round(cur.sales + acc.sales),
           channel: cur.channel,
           imp: cur.imp + acc.imp,
           click: cur.click + acc.click,
           cost: cur.cost + acc.cost,
           convValue: cur.convValue + acc.convValue,
-          ctr: cur.ctr + acc.ctr,
-          cpc: cur.cpc + acc.cpc,
-          roas: cur.roas + acc.roas,
+          ctr: roundToTwo((cur.ctr + acc.ctr) / fiteredDate.length),
+          cpc: Math.round((cur.cpc + acc.cpc) / fiteredDate.length),
+          roas: Math.round((cur.roas + acc.roas) / fiteredDate.length),
         }
-      })
+      }
+      return {
+        sales: Math.round(cur.sales + acc.sales),
+        channel: cur.channel,
+        imp: cur.imp + acc.imp,
+        click: cur.click + acc.click,
+        cost: cur.cost + acc.cost,
+        convValue: cur.convValue + acc.convValue,
+        ctr: cur.ctr + acc.ctr,
+        cpc: cur.cpc + acc.cpc,
+        roas: Math.round(cur.roas + acc.roas),
+      }
+    })
   }
-  const reducedDataObj: any = {
+  const reducedAllDataObj: any = {
     google: reduceData('google'),
     naver: reduceData('naver'),
     facebook: reduceData('facebook'),
     kakao: reduceData('kakao'),
   }
+  const reducedAllDataArr = [reduceData('google'), reduceData('facebook'), reduceData('naver'), reduceData('kakao')]
 
   const createVictoryBarData = (key: string) => {
     return [
       {
         xAxis: 'sales',
         yAxis: Math.round(
-          (reducedDataObj[key].sales /
-            (reducedDataObj.google.sales +
-              reducedDataObj.naver.sales +
-              reducedDataObj.facebook.sales +
-              reducedDataObj.kakao.sales)) *
-            100
-        ),
-      },
-      {
-        xAxis: 'click',
-        yAxis: Math.round(
-          (reducedDataObj[key].click /
-            (reducedDataObj.google.click +
-              reducedDataObj.naver.click +
-              reducedDataObj.facebook.click +
-              reducedDataObj.kakao.click)) *
+          (reducedAllDataObj[key].sales /
+            (reducedAllDataObj.google.sales +
+              reducedAllDataObj.naver.sales +
+              reducedAllDataObj.facebook.sales +
+              reducedAllDataObj.kakao.sales)) *
             100
         ),
       },
       {
         xAxis: 'cost',
         yAxis: Math.round(
-          (reducedDataObj[key].cost /
-            (reducedDataObj.google.cost +
-              reducedDataObj.naver.cost +
-              reducedDataObj.facebook.cost +
-              reducedDataObj.kakao.cost)) *
+          (reducedAllDataObj[key].cost /
+            (reducedAllDataObj.google.cost +
+              reducedAllDataObj.naver.cost +
+              reducedAllDataObj.facebook.cost +
+              reducedAllDataObj.kakao.cost)) *
             100
         ),
       },
       {
         xAxis: 'imp',
         yAxis: Math.round(
-          (reducedDataObj[key].imp /
-            (reducedDataObj.google.imp +
-              reducedDataObj.naver.imp +
-              reducedDataObj.facebook.imp +
-              reducedDataObj.kakao.imp)) *
+          (reducedAllDataObj[key].imp /
+            (reducedAllDataObj.google.imp +
+              reducedAllDataObj.naver.imp +
+              reducedAllDataObj.facebook.imp +
+              reducedAllDataObj.kakao.imp)) *
+            100
+        ),
+      },
+      {
+        xAxis: 'click',
+        yAxis: Math.round(
+          (reducedAllDataObj[key].click /
+            (reducedAllDataObj.google.click +
+              reducedAllDataObj.naver.click +
+              reducedAllDataObj.facebook.click +
+              reducedAllDataObj.kakao.click)) *
             100
         ),
       },
       {
         xAxis: 'convValue',
         yAxis: Math.round(
-          (reducedDataObj[key].convValue /
-            (reducedDataObj.google.convValue +
-              reducedDataObj.naver.convValue +
-              reducedDataObj.facebook.convValue +
-              reducedDataObj.kakao.convValue)) *
+          (reducedAllDataObj[key].convValue /
+            (reducedAllDataObj.google.convValue +
+              reducedAllDataObj.naver.convValue +
+              reducedAllDataObj.facebook.convValue +
+              reducedAllDataObj.kakao.convValue)) *
             100
         ),
       },
     ]
   }
-  const reducedDataArr = [reduceData('google'), reduceData('naver'), reduceData('facebook'), reduceData('kakao')]
 
-  console.log(
-    reducedDataArr,
-    createVictoryBarData('google'),
-    createVictoryBarData('facebook'),
-    createVictoryBarData('naver'),
-    createVictoryBarData('kakao')
-  )
+  // console.log(
+  //   reducedAllDataArr,
+  //   createVictoryBarData('google'),
+  //   createVictoryBarData('facebook'),
+  //   createVictoryBarData('naver'),
+  //   createVictoryBarData('kakao')
+  // )
 
   return (
     <div className={styles.currentStatusOfMediumContainer}>
       <div className={styles.rechartsContainer}>
         <div className={styles.rechartsWrapper}>
-          <VictoryChart width={800} height={400} domainPadding={30} theme={VictoryTheme.material}>
+          <VictoryChart width={1100} height={400} domainPadding={40} theme={VictoryTheme.material}>
             <VictoryAxis
-              tickValues={['sales', 'click', 'cost', 'imp', 'convValue']}
+              tickValues={['sales', 'cost', 'imp', 'click', 'convValue']}
               tickFormat={['매출', '광고비', '노출 수', '클릭 수', '전환 수']}
             />
             <VictoryAxis dependentAxis tickFormat={(x) => `${x}%`} />
             <VictoryStack colorScale={['#56adf7', '#85da47', '#ac8af8', '#f8d849']}>
-              <VictoryBar data={createVictoryBarData('google')} x='xAxis' y='yAxis' />
-              <VictoryBar data={createVictoryBarData('facebook')} x='xAxis' y='yAxis' />
-              <VictoryBar data={createVictoryBarData('naver')} x='xAxis' y='yAxis' />
-              <VictoryBar data={createVictoryBarData('kakao')} x='xAxis' y='yAxis' />
+              <VictoryBar barWidth={30} data={createVictoryBarData('google')} x='xAxis' y='yAxis' />
+              <VictoryBar barWidth={30} data={createVictoryBarData('facebook')} x='xAxis' y='yAxis' />
+              <VictoryBar barWidth={30} data={createVictoryBarData('naver')} x='xAxis' y='yAxis' />
+              <VictoryBar
+                cornerRadius={{ top: 6 }}
+                barWidth={30}
+                data={createVictoryBarData('kakao')}
+                x='xAxis'
+                y='yAxis'
+              />
             </VictoryStack>
           </VictoryChart>
         </div>
@@ -153,7 +158,7 @@ const CurrentStatusOfMedium = () => {
               </tr>
             </thead>
             <tbody className='ant-table-tbody'>
-              {reducedDataArr.map((item) => {
+              {reducedAllDataArr.map((item) => {
                 return (
                   <tr
                     key={`key ${item.channel}`}
@@ -163,13 +168,13 @@ const CurrentStatusOfMedium = () => {
                     <td title={`${item.channel}`}>
                       <span className='ant-table-cell-content'>{item.channel.toUpperCase()}</span>
                     </td>
-                    <td className='ant-table-cell'>{Math.round(item.cost)}</td>
-                    <td className='ant-table-cell'>{item.sales ? Math.round(item.sales) : 0}</td>
-                    <td className='ant-table-cell'>{Math.round(item.roas)}%</td>
-                    <td className='ant-table-cell'>{Math.round(item.convValue)}</td>
-                    <td className='ant-table-cell'>{Math.round(item.imp)}</td>
-                    <td className='ant-table-cell'>{Math.round(item.ctr)}%</td>
-                    <td className='ant-table-cell'>{Math.round(item.cpc)}원</td>
+                    <td className='ant-table-cell'>{fomatting(item.cost)}원</td>
+                    <td className='ant-table-cell'>{fomatting(item.sales)}원</td>
+                    <td className='ant-table-cell'>{item.roas}%</td>
+                    <td className='ant-table-cell'>{fomatting(item.imp)}</td>
+                    <td className='ant-table-cell'>{fomatting(item.click)}</td>
+                    <td className='ant-table-cell'>{item.ctr}%</td>
+                    <td className='ant-table-cell'>{fomatting(item.cpc)}원</td>
                   </tr>
                 )
               })}
@@ -178,17 +183,71 @@ const CurrentStatusOfMedium = () => {
               <tr>
                 <td className='ant-table-cell'>총계</td>
                 <td className='ant-table-cell'>
-                  {reducedDataObj.google.cost +
-                    reducedDataObj.naver.cost +
-                    reducedDataObj.facebook.cost +
-                    reducedDataObj.kakao.cost}
+                  {fomatting(
+                    reducedAllDataObj.google.cost +
+                      reducedAllDataObj.naver.cost +
+                      reducedAllDataObj.facebook.cost +
+                      reducedAllDataObj.kakao.cost
+                  )}
+                  원
                 </td>
-                <td className='ant-table-cell'>7,353,000원</td>
-                <td className='ant-table-cell'>1,263%</td>
-                <td className='ant-table-cell'>168,927</td>
-                <td className='ant-table-cell'>2,064</td>
-                <td className='ant-table-cell'>1.22%</td>
-                <td className='ant-table-cell'>282원</td>
+                <td className='ant-table-cell'>
+                  {fomatting(
+                    reducedAllDataObj.google.sales +
+                      reducedAllDataObj.naver.sales +
+                      reducedAllDataObj.facebook.sales +
+                      reducedAllDataObj.kakao.sales
+                  )}
+                  원
+                </td>
+                <td className='ant-table-cell'>
+                  {Math.round(
+                    (reducedAllDataObj.google.roas +
+                      reducedAllDataObj.naver.roas +
+                      reducedAllDataObj.facebook.roas +
+                      reducedAllDataObj.kakao.roas) /
+                      4
+                  )}
+                  %
+                </td>
+                <td className='ant-table-cell'>
+                  {fomatting(
+                    reducedAllDataObj.google.imp +
+                      reducedAllDataObj.naver.imp +
+                      reducedAllDataObj.facebook.imp +
+                      reducedAllDataObj.kakao.imp
+                  )}
+                </td>
+                <td className='ant-table-cell'>
+                  {fomatting(
+                    reducedAllDataObj.google.click +
+                      reducedAllDataObj.naver.click +
+                      reducedAllDataObj.facebook.click +
+                      reducedAllDataObj.kakao.click
+                  )}
+                </td>
+                <td className='ant-table-cell'>
+                  {roundToTwo(
+                    (reducedAllDataObj.google.ctr +
+                      reducedAllDataObj.naver.ctr +
+                      reducedAllDataObj.facebook.ctr +
+                      reducedAllDataObj.kakao.ctr) /
+                      4
+                  )}
+                  %
+                </td>
+                <td className='ant-table-cell'>
+                  {fomatting(
+                    Math.round(
+                      (reducedAllDataObj.google.cpc +
+                        reducedAllDataObj.naver.cpc +
+                        reducedAllDataObj.facebook.cpc +
+                        reducedAllDataObj.kakao.cpc) /
+                        4
+                    )
+                  )}
+                  원
+                </td>
               </tr>
             </tfoot>
           </table>
