@@ -14,16 +14,32 @@
     table {
       width: 800px;
       min-width: 100%;
-      margin-top: 40px;
+      margin-top: 60px;
       table-layout: fixed;
     }
   }
 
-  .rechartsContainer {
-    .rechartsWrapper {
-      svg {
-        width: 800px;
-        height: 500px;
+  .rechartsWrapper {
+    .rechartsLegendWrapper {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      margin: 0 45px 0 30px;
+      font-size: 12px;
+      font-weight: 500;
+      color: rgb(148, 162, 173);
+
+      .textWrapper {
+        display: flex;
+        align-items: center;
+
+        .circle {
+          width: 10px;
+          height: 10px;
+          margin-right: 20px;
+          margin-left: 40px;
+          border-radius: 50%;
+        }
       }
     }
   }

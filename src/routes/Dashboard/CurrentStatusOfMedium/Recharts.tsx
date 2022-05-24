@@ -31,7 +31,24 @@ const Recharts = ({ createVictoryBarData }: { createVictoryBarData: Function }) 
           <VictoryBar {...CHART_STYLE.bar} cornerRadius={{ top: 6 }} data={createVictoryBarData('kakao')} />
         </VictoryStack>
       </VictoryChart>
-      <div className={styles.rechartsLegendWrapper}>recharts legend</div>
+      <div className={styles.rechartsLegendWrapper}>
+        <div className={styles.textWrapper}>
+          <div className={styles.circle} style={{ backgroundColor: 'rgb(79, 173, 247)' }} />
+          <span>구글</span>
+        </div>
+        <div className={styles.textWrapper}>
+          <div className={styles.circle} style={{ backgroundColor: 'rgb(133, 218, 71)' }} />
+          <span>페이스북</span>
+        </div>
+        <div className={styles.textWrapper}>
+          <div className={styles.circle} style={{ backgroundColor: 'rgb(172, 138, 248)' }} />
+          <span>네이버</span>
+        </div>
+        <div className={styles.textWrapper}>
+          <div className={styles.circle} style={{ backgroundColor: 'rgb(248, 216, 73)' }} />
+          <span>카카오</span>
+        </div>
+      </div>
     </div>
   )
 }
