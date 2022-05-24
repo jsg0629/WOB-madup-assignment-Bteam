@@ -1,0 +1,18 @@
+.selectBoxesContainer {
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+
+  .selectBoxWrapper {
+    display: flex;
+
+    :first-child {
+      margin-right: 5px;
+    }
+  }
+}
+
+.chartContainer {
+  z-index: 0;
+}
