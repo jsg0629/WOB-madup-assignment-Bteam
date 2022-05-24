@@ -18,7 +18,7 @@ const Chart = (): JSX.Element => {
   const [secondSelect, setSecondSelect] = useState(SELECT_LIST[0])
   const [periodSelect, setPeriodSelect] = useState(PERIOD_SELECT_LIST[0])
 
-  const { roas, cost, imp, click, conv } = convertData(dailyData)
+  const { roas, cost, imp, click, conv, sales } = convertData(dailyData)
 
   const firstData = {
     ROAS: roas,
@@ -26,6 +26,7 @@ const Chart = (): JSX.Element => {
     '노출 수': imp,
     '클릭 수': click,
     '전환 수': conv,
+    매출: sales,
   }[firstSelect]
 
   const secondData = {
@@ -34,6 +35,7 @@ const Chart = (): JSX.Element => {
     '노출 수': imp,
     '클릭 수': click,
     '전환 수': conv,
+    매출: sales,
   }[secondSelect]
 
   return (

@@ -100,29 +100,3 @@ const ChartItem = ({ firstData, secondData }: Props): JSX.Element => {
 }
 
 export default ChartItem
-{
-  /* <VictoryAxis
-              dependentAxis
-              offsetX={910}
-              tickLabelComponent={<VictoryLabel dy={15} textAnchor='start' />}
-              style={{
-                axis: { stroke: 'none' },
-                tickLabels: { fill: 'black' },
-              }}
-              tickValues={[0.2, 0.4, 0.6, 0.8, 1]}
-              tickFormat={(t) => (t * maxima(maxNum(secondData))).toLocaleString()}
-            />
-            <VictoryLine
-              name={`${secondData}`}
-              data={secondData}
-              animate={{
-                duration: 2000,
-                onLoad: { duration: 1000 },
-              }}
-              style={{
-                data: { stroke: 'red' },
-                parent: { border: '1px solid #ccc' },
-              }}
-              y={(datum) => datum.y / maxima(maxNum(secondData))}
-            /> */
-}
