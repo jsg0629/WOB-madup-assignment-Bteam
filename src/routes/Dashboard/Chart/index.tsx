@@ -20,23 +20,25 @@ const Chart = (): JSX.Element => {
 
   const { roas, cost, imp, click, conv, sales } = convertData(dailyData)
 
-  const firstData = {
-    ROAS: roas,
-    광고비: cost,
-    '노출 수': imp,
-    '클릭 수': click,
-    '전환 수': conv,
-    매출: sales,
-  }[firstSelect]
+  const firstData =
+    {
+      ROAS: roas,
+      광고비: cost,
+      '노출 수': imp,
+      '클릭 수': click,
+      '전환 수': conv,
+      매출: sales,
+    }[firstSelect] ?? null
 
-  const secondData = {
-    ROAS: roas,
-    광고비: cost,
-    '노출 수': imp,
-    '클릭 수': click,
-    '전환 수': conv,
-    매출: sales,
-  }[secondSelect]
+  const secondData =
+    {
+      ROAS: roas,
+      광고비: cost,
+      '노출 수': imp,
+      '클릭 수': click,
+      '전환 수': conv,
+      매출: sales,
+    }[secondSelect] ?? null
 
   return (
     <>

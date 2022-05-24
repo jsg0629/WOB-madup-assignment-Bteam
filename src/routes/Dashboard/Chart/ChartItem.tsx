@@ -1,5 +1,8 @@
 import { VictoryAxis, VictoryChart, VictoryLabel, VictoryLine, VictoryTheme } from 'victory'
 
+import { useRecoilState } from 'hooks/state'
+import { dailyDataResultState } from 'states/dashboard'
+
 import styles from './chart.module.scss'
 
 type Data = {
@@ -8,17 +11,19 @@ type Data = {
 }
 
 interface Props {
-  firstData?: Data[]
-  secondData?: Data[]
+  firstData: Data[] | null
+  secondData: Data[] | null
 }
 
 const ChartItem = ({ firstData, secondData }: Props): JSX.Element => {
+  const [dailyData] = useRecoilState(dailyDataResultState)
+
   const options = {
     width: 960,
     height: 400,
   }
 
-  const maxNum = (d: Data[]) => {
+  const getMaxNum = (d: Data[]) => {
     return d.reduce((max, p) => (p.y > max ? p.y : max), d[0].y)
   }
 
@@ -30,29 +35,16 @@ const ChartItem = ({ firstData, secondData }: Props): JSX.Element => {
     return firstDigit * square
   }
 
-  const data = []
-
-  if (firstData) {
-    data[0] = firstData
-  } else {
-    data[0] = null
-  }
-
-  if (secondData) {
-    data[1] = secondData
-  } else {
-    data[1] = null
-  }
-
+  const data = [firstData, secondData]
   const xOffsets = [50, 910]
   const colors = ['#4fadf7', '#85da47']
 
   return (
     <div className={styles.chartContainer}>
-      {firstData && firstData.length !== 0 && (
+      {dailyData.length !== 0 && (
         <VictoryChart theme={VictoryTheme.material} {...options} domain={{ y: [0, 1] }}>
           <VictoryAxis />
-          {data?.map((d, i) => {
+          {data.map((d, i) => {
             if (d) {
               const key = `victoryAxis-${i}`
               return (
@@ -66,13 +58,13 @@ const ChartItem = ({ firstData, secondData }: Props): JSX.Element => {
                     tickLabels: { fill: 'black' },
                   }}
                   tickValues={[0.2, 0.4, 0.6, 0.8, 1]}
-                  tickFormat={(t) => (t * maxima(maxNum(d))).toLocaleString()}
+                  tickFormat={(t) => (t * maxima(getMaxNum(d))).toLocaleString()}
                 />
               )
             }
             return null
           })}
-          {data?.map((d, i) => {
+          {data.map((d, i) => {
             if (d) {
               const key = `victoryLine-${i}`
               return (
@@ -87,7 +79,7 @@ const ChartItem = ({ firstData, secondData }: Props): JSX.Element => {
                     parent: { border: '1px solid #ccc' },
                     data: { stroke: colors[i] },
                   }}
-                  y={(datum) => datum.y / maxima(maxNum(d))}
+                  y={(datum) => datum.y / maxima(getMaxNum(d))}
                 />
               )
             }
