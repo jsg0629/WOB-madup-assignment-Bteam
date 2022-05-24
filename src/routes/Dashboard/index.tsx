@@ -1,4 +1,5 @@
 import AdTop from './AdTop'
+import Chart from './Chart'
 import styles from './dashboard.module.scss'
 
 const Dashboard = (): JSX.Element => {
@@ -7,6 +8,7 @@ const Dashboard = (): JSX.Element => {
       <h2 className={styles.adSectionTitle}>통합 광고 현황</h2>
       <div className={styles.boardWrapper}>
         <AdTop />
+        <Chart />
       </div>
     </div>
   )
