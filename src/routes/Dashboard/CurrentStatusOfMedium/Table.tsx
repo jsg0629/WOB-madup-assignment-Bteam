@@ -38,12 +38,12 @@ const Table = ({
                   <span className='ant-table-cell-content'>{item.channel.toUpperCase()}</span>
                 </td>
                 <td className='ant-table-cell'>{fomatting(item.cost)}원</td>
-                <td className='ant-table-cell'>{fomatting(item.sales)}원</td>
-                <td className='ant-table-cell'>{item.roas}%</td>
+                <td className='ant-table-cell'>{fomatting(Math.round(item.sales))}원</td>
+                <td className='ant-table-cell'>{Math.round(item.roas)}%</td>
                 <td className='ant-table-cell'>{fomatting(item.imp)}</td>
                 <td className='ant-table-cell'>{fomatting(item.click)}</td>
-                <td className='ant-table-cell'>{item.ctr}%</td>
-                <td className='ant-table-cell'>{fomatting(item.cpc)}원</td>
+                <td className='ant-table-cell'>{roundToTwo(item.ctr)}%</td>
+                <td className='ant-table-cell'>{fomatting(Math.round(item.cpc))}원</td>
               </tr>
             )
           })}
@@ -52,7 +52,7 @@ const Table = ({
           <tr>
             <td className='ant-table-cell'>총계</td>
             <td className='ant-table-cell'>{fomatting(CalculatingSumOfColumns('cost'))}원</td>
-            <td className='ant-table-cell'>{fomatting(CalculatingSumOfColumns('sales'))}원</td>
+            <td className='ant-table-cell'>{fomatting(Math.round(CalculatingSumOfColumns('sales')))}원</td>
             <td className='ant-table-cell'>{Math.round(CalculatingSumOfColumns('roas') / 4)}%</td>
             <td className='ant-table-cell'>{fomatting(CalculatingSumOfColumns('imp'))}</td>
             <td className='ant-table-cell'>{fomatting(CalculatingSumOfColumns('click'))}</td>

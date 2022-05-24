@@ -4,7 +4,6 @@ import { useRecoilState } from 'recoil'
 import { byChannelDataResultState } from 'states/dashboard'
 import Recharts from './Recharts'
 import Table from './Table'
-import { roundToTwo } from 'utils/num'
 
 const CurrentStatusOfMedium = () => {
   const [byChannelData] = useRecoilState(byChannelDataResultState)
@@ -15,19 +14,19 @@ const CurrentStatusOfMedium = () => {
     return fiteredDate.reduce((acc, cur, i) => {
       if (i === fiteredDate.length - 1) {
         return {
-          sales: Math.round(cur.sales + acc.sales),
+          sales: cur.sales + acc.sales,
           channel: cur.channel,
           cost: cur.cost + acc.cost,
           imp: cur.imp + acc.imp,
           click: cur.click + acc.click,
           convValue: cur.convValue + acc.convValue,
-          ctr: roundToTwo((cur.ctr + acc.ctr) / fiteredDate.length),
-          cpc: Math.round((cur.cpc + acc.cpc) / fiteredDate.length),
-          roas: Math.round((cur.roas + acc.roas) / fiteredDate.length),
+          ctr: (cur.ctr + acc.ctr) / fiteredDate.length,
+          cpc: (cur.cpc + acc.cpc) / fiteredDate.length,
+          roas: (cur.roas + acc.roas) / fiteredDate.length,
         }
       }
       return {
-        sales: Math.round(cur.sales + acc.sales),
+        sales: cur.sales + acc.sales,
         channel: cur.channel,
         cost: cur.cost + acc.cost,
         imp: cur.imp + acc.imp,
@@ -35,7 +34,7 @@ const CurrentStatusOfMedium = () => {
         convValue: cur.convValue + acc.convValue,
         ctr: cur.ctr + acc.ctr,
         cpc: cur.cpc + acc.cpc,
-        roas: Math.round(cur.roas + acc.roas),
+        roas: cur.roas + acc.roas,
       }
     })
   }
@@ -73,14 +72,9 @@ const CurrentStatusOfMedium = () => {
     }
     return result
   }
-  // console.log(
-  //   reducedAllChannelDataObj,
-  //   reducedAllChannelDataArr,
-  //   createVictoryBarData('google'),
-  //   createVictoryBarData('facebook'),
-  //   createVictoryBarData('naver'),
-  //   createVictoryBarData('kakao')
-  // )
+  // console.log(reducedAllChannelDataObj, 'reducedAllChannelDataObj')
+  // console.log(reducedAllChannelDataArr, 'reducedAllChannelDataArr')
+  // console.log(createVictoryBarData('facebook'), 'createVictoryBarData')
 
   const CalculatingSumOfColumns = (column: string) => {
     return (
