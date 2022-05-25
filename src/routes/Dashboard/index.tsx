@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { useRecoilState } from 'recoil'
-import dayjs from 'dayjs'
+import store from 'store'
 
 import { byChannelDataResultState, byChannelFetchState, dailyDataResultState, dailyFetchState } from 'states/dashboard'
 
@@ -12,14 +12,10 @@ import styles from './dashboard.module.scss'
 import CurrentStatusOfMedium from './CurrentStatusOfMedium'
 import { getDailyData, getByChannelData } from 'services/ads'
 
-// TODO 달력 디폴트 날짜 설정
-const defaultStartDate = dayjs(new Date(2022, 1, 1)).format('YYYY-MM-DD')
-const defaultEndDate = dayjs(new Date(2022, 1, 2)).format('YYYY-MM-DD')
-
 const Dashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [currentStartDate, setCurrentStartDate] = useState(defaultStartDate)
-  const [currentEndDate, setCurrentEndDate] = useState(defaultEndDate)
+  const currentStartDate = store.get('startDate')
+  const currentEndDate = store.get('endDate')
   const [dailyFetch, setDailyFetch] = useRecoilState(dailyFetchState)
   const [byChannelFetch, setByChannelFetch] = useRecoilState(byChannelFetchState)
   const [dailyData, setDailyData] = useRecoilState(dailyDataResultState)
@@ -59,10 +55,6 @@ const Dashboard = () => {
     setIsModalOpen(true)
   }
 
-  // 선택하신 기간에 대해서
-  // dailyData: 날짜별 데이터
-  // byChannelData: 채널 별 데이터
-
   return (
     <div>
       <header className={styles.header}>
@@ -73,11 +65,7 @@ const Dashboard = () => {
           </button>
           {isModalOpen && (
             <div className={styles.calendar}>
-              <CalendarModal
-                setIsModalOpen={setIsModalOpen}
-                setCurrentStartDate={setCurrentStartDate}
-                setCurrentEndDate={setCurrentEndDate}
-              />
+              <CalendarModal setIsModalOpen={setIsModalOpen} />
             </div>
           )}
         </div>
