@@ -2,7 +2,6 @@ import { IAdsItem } from 'types/ads'
 import { axios } from 'hooks/worker'
 import { IByChannelData } from 'types/dashboard'
 
-
 const DATA_URL = 'http://localhost:1004/adlist'
 const DATA_URL2 = `http://localhost:3004/`
 
@@ -13,6 +12,12 @@ export const getDailyData = (currentStartDate: string, currentEndDate: string, s
   return axios
     .get(`${DATA_URL2}daily?date_gte=${currentStartDate}&date_lte=${currentEndDate}`)
     .then((res) => setDailyData(res.data))
+}
+
+export const getPrevDailyData = (currentStartDate: string, currentEndDate: string, setPrevDailyData: Function) => {
+  return axios
+    .get(`${DATA_URL2}daily?date_gte=${currentStartDate}&date_lte=${currentEndDate}`)
+    .then((res) => setPrevDailyData(res.data))
 }
 
 export const getByChannelData = (currentStartDate: string, currentEndDate: string, setByChannelData: Function) => {
