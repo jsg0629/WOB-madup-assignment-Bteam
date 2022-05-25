@@ -42,7 +42,6 @@ const Dashboard = () => {
     {
       useErrorBoundary: true,
       enabled: !!dailyFetch,
-      staleTime: 6 * 50 * 1000,
       onSuccess: () => {
         setDailyFetch(false)
       },
@@ -57,7 +56,6 @@ const Dashboard = () => {
     {
       useErrorBoundary: true,
       enabled: !!dailyFetch,
-      staleTime: 6 * 50 * 1000,
       onSuccess: () => {
         setDailyFetch(false)
       },
