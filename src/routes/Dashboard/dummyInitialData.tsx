@@ -1,4 +1,4 @@
-export const InitialChannelDate = [
+export const InitialChannelData = [
   {
     channel: 'google',
     date: '2022-02-01',

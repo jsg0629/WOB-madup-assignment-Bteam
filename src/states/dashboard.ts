@@ -1,6 +1,6 @@
 import { atom } from 'recoil'
 import { IByChannelData, IDailyData } from 'types/dashboard'
-import { InitialChannelDate } from '../routes/Dashboard/dummyInitialData'
+import { InitialChannelData } from '../routes/Dashboard/dummyInitialData'
 
 export const dailyDataResultState = atom<IDailyData[]>({
   key: '#dailyDataResultState',
@@ -9,7 +9,7 @@ export const dailyDataResultState = atom<IDailyData[]>({
 
 export const byChannelDataResultState = atom<IByChannelData[]>({
   key: '#byChannelDataResultState',
-  default: InitialChannelDate.map((el: any) => {
+  default: InitialChannelData.map((el: any) => {
     el.sales = (el.roas * el.cost) / 100
     return el
   }),
