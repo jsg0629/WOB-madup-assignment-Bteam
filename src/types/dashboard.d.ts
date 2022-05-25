@@ -31,3 +31,19 @@ export interface IVictoryBarData {
   xAxis: string
   yAxis: number
 }
+
+export interface ICardContentData {
+  title: string
+  value: string
+  change: string
+  increase: boolean
+}
+
+export interface ISumAdData {
+  sumClick: number
+  sumConv: number
+  sumCost: number
+  sumImp: number
+  sumRoas: number
+  sumSales: number
+}
