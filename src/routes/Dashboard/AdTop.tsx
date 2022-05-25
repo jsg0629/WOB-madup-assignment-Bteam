@@ -1,11 +1,13 @@
-import { DecreaseIcon, IncreaseIcon } from 'assets/svgs'
+import { useEffect } from 'react'
 import { useRecoilState } from 'recoil'
+import store from 'store'
+
 import { dailyDataResultState, prevDailyDataResultState } from 'states/dashboard'
 import { ICardContentData } from 'types/dashboard'
 import { dataProcess, processCardData } from 'utils/adDataProcess'
+
 import styles from './dashboard.module.scss'
-import store from 'store'
-import { useEffect } from 'react'
+import { DecreaseIcon, IncreaseIcon } from 'assets/svgs'
 
 const AdTop = () => {
   const currentStartDate = store.get('startDate')
