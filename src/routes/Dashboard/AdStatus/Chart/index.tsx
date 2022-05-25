@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import store from 'store'
 
 import { useRecoilState } from 'hooks/state'
@@ -17,7 +17,7 @@ const Chart = (): JSX.Element => {
 
   const currentStartDate = store.get('startDate')
   const currentEndDate = store.get('endDate')
-  const currentPeriodSelect = store.get('c')
+  const currentPeriodSelect = store.get('dayOrWeek')
 
   const [firstSelect, setFirstSelect] = useState(CATEGORY_SELECT_LIST[0])
   const [secondSelect, setSecondSelect] = useState(CATEGORY_SELECT_LIST[1])
@@ -33,39 +33,44 @@ const Chart = (): JSX.Element => {
   const listForDropDownA = CATEGORY_SELECT_LIST.filter((title) => title !== '없음' && title !== secondSelect)
   const listForDropDownB = CATEGORY_SELECT_LIST.filter((title) => title !== firstSelect)
 
-  let firstData = null
-  let secondData = null
+  const getDailyData = (dataKey: string) => {
+    return (
+      {
+        ROAS: roasDaily,
+        광고비: costDaily,
+        '노출 수': impDaily,
+        '클릭 수': clickDaily,
+        '전환 수': convDaily,
+        매출: salesDaily,
+      }[dataKey] ?? undefined
+    )
+  }
+
+  const getWeeklyData = (dataKey: string) => {
+    return (
+      {
+        ROAS: roasWeekly,
+        광고비: costWeekly,
+        '노출 수': impWeekly,
+        '클릭 수': clickWeekly,
+        '전환 수': convWeekly,
+        매출: salesWeekly,
+      }[dataKey] ?? undefined
+    )
+  }
+
+  let firstData =
+    {
+      일간: getDailyData(firstSelect),
+      주간: getWeeklyData(firstSelect),
+    }[periodSelect] ?? undefined
+
+  let secondData
 
   if (currentPeriodSelect === '일간') {
-    const getDailyData = (dataKey: string) => {
-      return (
-        {
-          ROAS: roasDaily,
-          광고비: costDaily,
-          '노출 수': impDaily,
-          '클릭 수': clickDaily,
-          '전환 수': convDaily,
-          매출: salesDaily,
-        }[dataKey] ?? null
-      )
-    }
-
     firstData = getDailyData(firstSelect)
     secondData = getDailyData(secondSelect)
   } else {
-    const getWeeklyData = (dataKey: string) => {
-      return (
-        {
-          ROAS: roasWeekly,
-          광고비: costWeekly,
-          '노출 수': impWeekly,
-          '클릭 수': clickWeekly,
-          '전환 수': convWeekly,
-          매출: salesWeekly,
-        }[dataKey] ?? null
-      )
-    }
-
     firstData = getWeeklyData(firstSelect)
     secondData = getWeeklyData(secondSelect)
   }
