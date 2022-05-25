@@ -1,5 +1,13 @@
 /* eslint-disable no-underscore-dangle */
-import { VictoryBar, VictoryChart, VictoryAxis, VictoryStack, VictoryTheme, VictoryVoronoiContainer } from 'victory'
+import {
+  VictoryBar,
+  VictoryChart,
+  VictoryAxis,
+  VictoryStack,
+  VictoryTheme,
+  VictoryVoronoiContainer,
+  VictoryTooltip,
+} from 'victory'
 
 import styles from './currentStatusOfMedium.module.scss'
 
@@ -13,10 +21,10 @@ const Recharts = ({ createVictoryBarData }: { createVictoryBarData: Function }) 
       barWidth: 30,
       x: 'xAxis',
       y: 'yAxis',
-      //   animate: { // 적용이 왜 안될까요,,, 달력을 클릭해야 모션이 생기네요
-      //     duration: 2000,
-      //     onLoad: { duration: 1000 },
-      //   },
+      animate: {
+        duration: 2000,
+        onLoad: { duration: 1000 },
+      },
     },
   }
   return (
@@ -47,6 +55,15 @@ const Recharts = ({ createVictoryBarData }: { createVictoryBarData: Function }) 
               }
               return 'no result'
             }}
+            labelComponent={
+              <VictoryTooltip
+                flyoutStyle={{
+                  stroke: 'lightgray',
+                  fill: 'white',
+                }}
+                flyoutPadding={15}
+              />
+            }
           />
         }
       >
