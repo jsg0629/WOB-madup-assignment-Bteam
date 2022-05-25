@@ -12,8 +12,8 @@ import {
 } from 'states/dashboard'
 import { getDailyData, getByChannelData, getPrevDailyData } from 'services/ads'
 
+import AdCardContent from './AdCardContent'
 import CalendarModal from './CalendarModal/CalendarModal'
-import AdTop from './AdTop'
 import Chart from './Chart'
 import CurrentStatusOfMedium from './CurrentStatusOfMedium'
 import Loading from 'routes/_shared/Loading'
@@ -37,6 +37,9 @@ const Dashboard = () => {
     getDailyData(currentStartDate, currentEndDate).then((res) => {
       setDailyData(res.data)
     })
+    getPrevDailyData(prevStartDate, prevEndDate).then((res) => {
+      setPrevDailyData(res.data)
+    })
   })
 
   const { isLoading: isDailyLoading } = useQuery(
@@ -58,7 +61,9 @@ const Dashboard = () => {
   const { data: prevDailyDataResult } = useQuery(
     ['getPrveDailyData', prevStartDate, prevEndDate],
     () => {
-      getPrevDailyData(prevStartDate, prevEndDate, setPrevDailyData)
+      getPrevDailyData(prevStartDate, prevEndDate).then((res) => {
+        setPrevDailyData(res.data)
+      })
     },
     {
       useErrorBoundary: true,
@@ -111,7 +116,7 @@ const Dashboard = () => {
         <div className={styles.adSectionWrapper}>
           <h2 className={styles.adSectionTitle}>통합 광고 현황</h2>
           <div className={styles.boardWrapper}>
-            <AdTop />
+            <AdCardContent />
             <Chart />
           </div>
         </div>

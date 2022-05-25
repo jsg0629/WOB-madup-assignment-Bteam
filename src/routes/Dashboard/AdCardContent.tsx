@@ -9,31 +9,23 @@ import { dataProcess, processCardData } from 'utils/adDataProcess'
 import styles from './dashboard.module.scss'
 import { DecreaseIcon, IncreaseIcon } from 'assets/svgs'
 
-const AdTop = () => {
+const AdCardContent = () => {
   const currentStartDate = store.get('startDate')
   const currentEndDate = store.get('endDate')
   const prevStartDate = store.get('prevStartDate')
   const prevEndDate = store.get('prevEndDate')
   const [dailyData] = useRecoilState(dailyDataResultState)
   const [prevDailyData] = useRecoilState(prevDailyDataResultState)
+
   const sumData = dataProcess(currentStartDate, currentEndDate, dailyData)
   const sumPrevData = dataProcess(prevStartDate, prevEndDate, prevDailyData)
 
   const adCardContent: ICardContentData[] = processCardData(sumData, sumPrevData)
 
-  if (!store.get('adCardData')) store.set('adCardData', [])
-
-  useEffect(() => {
-    store.set('adCardData', adCardContent)
-  }, [adCardContent])
-
-  useEffect(() => {}, [sumData, sumPrevData])
-  const adCardData: ICardContentData[] = store.get('adCardData')
-
   return (
     <ul className={styles.indicatorWrapper}>
-      {adCardData.length > 0 &&
-        adCardData.map((item) => (
+      {adCardContent.length > 0 &&
+        adCardContent.map((item) => (
           <li key={item.title} className={styles.indicatorCard}>
             <dl>
               <dt>{item.title}</dt>
@@ -49,4 +41,4 @@ const AdTop = () => {
   )
 }
 
-export default AdTop
+export default AdCardContent

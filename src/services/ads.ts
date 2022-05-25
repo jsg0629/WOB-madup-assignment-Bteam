@@ -10,10 +10,8 @@ export const getDailyData = (currentStartDate: string, currentEndDate: string) =
   return axios.get<IDailyData[]>(`${DATA_URL}daily?date_gte=${currentStartDate}&date_lte=${currentEndDate}`)
 }
 
-export const getPrevDailyData = (currentStartDate: string, currentEndDate: string, setPrevDailyData: Function) => {
-  return axios
-    .get(`${DATA_URL}daily?date_gte=${currentStartDate}&date_lte=${currentEndDate}`)
-    .then((res) => setPrevDailyData(res.data))
+export const getPrevDailyData = (currentStartDate: string, currentEndDate: string) => {
+  return axios.get<IDailyData[]>(`${DATA_URL}daily?date_gte=${currentStartDate}&date_lte=${currentEndDate}`)
 }
 
 export const getByChannelData = (currentStartDate: string, currentEndDate: string, setByChannelData: Function) => {
