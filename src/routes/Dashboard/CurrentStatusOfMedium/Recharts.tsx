@@ -18,7 +18,6 @@ const Recharts = ({ createVictoryBarData }: { createVictoryBarData: Function }) 
       //   },
     },
   }
-  console.log(createVictoryBarData('google'))
   return (
     <div className={styles.rechartsWrapper}>
       <VictoryChart

@@ -1,4 +1,3 @@
-/* eslint-disable react/style-prop-object */
 import styles from './CurrentStatusOfMedium.module.scss'
 import { useRecoilState } from 'recoil'
 import { byChannelDataResultState } from 'states/dashboard'
@@ -54,7 +53,6 @@ const CurrentStatusOfMedium = () => {
 
   const createVictoryBarData = (channel: string) => {
     const result = []
-    // eslint-disable-next-line guard-for-in
     for (const key in reducedAllChannelDataObj[channel]) {
       if (key === 'sales' || key === 'cost' || key === 'imp' || key === 'click' || key === 'convValue')
         result.push({
