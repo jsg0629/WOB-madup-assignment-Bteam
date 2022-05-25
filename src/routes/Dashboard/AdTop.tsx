@@ -23,8 +23,9 @@ const AdTop = () => {
 
   useEffect(() => {
     store.set('adCardData', adCardContent)
-  }, [adCardContent, currentStartDate, currentEndDate, prevEndDate, prevStartDate])
+  }, [adCardContent])
 
+  useEffect(() => {}, [sumData, sumPrevData])
   const adCardData: ICardContentData[] = store.get('adCardData')
 
   return (
