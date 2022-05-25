@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { useRecoilState } from 'recoil'
 import store from 'store'
 
@@ -23,10 +22,10 @@ const AdCardContent = () => {
   const adCardContent: ICardContentData[] = processCardData(sumData, sumPrevData)
 
   return (
-    <ul className={styles.indicatorWrapper}>
+    <ul className={styles.adCardWrapper}>
       {adCardContent.length > 0 &&
         adCardContent.map((item) => (
-          <li key={item.title} className={styles.indicatorCard}>
+          <li key={item.title} className={styles.adCardContent}>
             <dl>
               <dt>{item.title}</dt>
               <dd>{item.value}</dd>

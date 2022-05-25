@@ -6,8 +6,7 @@
     margin-top: 100px;
 
     .adSectionTitle {
-      width: 1039px;
-      margin-bottom: 20px;
+      margin-left: 40px;
       font-size: 16px;
       font-weight: 700;
       color: colors.$GRAY800;
@@ -18,11 +17,12 @@
       flex-direction: column;
       height: 100%;
       padding: 40px;
-      margin: 40px;
+      margin: 20px 40px 40px;
       background-color: colors.$WHITE;
       border-radius: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 4%);
 
-      .indicatorWrapper {
+      .adCardWrapper {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 20px;
