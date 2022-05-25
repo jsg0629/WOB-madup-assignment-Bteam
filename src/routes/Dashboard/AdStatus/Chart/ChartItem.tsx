@@ -3,7 +3,7 @@ import { VictoryAxis, VictoryChart, VictoryLabel, VictoryLine, VictoryTheme } fr
 import { useRecoilState } from 'hooks/state'
 import { dailyDataResultState } from 'states/dashboard'
 
-import styles from './chart.module.scss'
+import styles from '../adStatus.module.scss'
 
 type Data = {
   x: string
