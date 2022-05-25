@@ -8,7 +8,12 @@ export const dataProcess = (startDate: string, endDate: string, apiData: IDailyD
   const sumSales = apiData
     ?.map((item: IDailyData) => (item.cost * item.roas) / 100)
     .reduce((acc: number, cur: number) => acc + cur, 0)
-  const sumRoas = (sumSales / sumCost) * 100
+  let sumRoas
+  if (sumSales === 0) {
+    sumRoas = 0
+  } else {
+    sumRoas = (sumSales / sumCost) * 100
+  }
 
   return {
     sumCost,
