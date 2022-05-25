@@ -6,7 +6,7 @@ import { convertData } from './utils'
 
 import DropDown from 'routes/_shared/DropDown'
 import ChartItem from './ChartItem'
-import styles from './chart.module.scss'
+import styles from '../adStatus.module.scss'
 
 const SELECT_LIST = ['ROAS', '광고비', '노출 수', '클릭 수', '전환 수', '매출', '없음']
 const PERIOD_SELECT_LIST = ['일간', '주간']
