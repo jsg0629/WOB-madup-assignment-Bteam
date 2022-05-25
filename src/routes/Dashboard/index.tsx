@@ -1,82 +1,31 @@
 import { useQuery } from 'react-query'
-import { useState, useMount } from 'hooks'
+import { useState } from 'hooks'
 import { useRecoilState, useSetRecoilState } from 'hooks/state'
 import store from 'store'
 
-import {
-  byChannelDataResultState,
-  byChannelFetchState,
-  dailyDataResultState,
-  dailyFetchState,
-  prevDailyDataResultState,
-} from 'states/dashboard'
-import { getDailyData, getByChannelData, getPrevDailyData } from 'services/ads'
+import { byChannelDataResultState, byChannelFetchState } from 'states/dashboard'
+import { getByChannelData } from 'services/ads'
 
-import AdCardContent from './AdCardContent'
+import AdStatus from './AdStatus'
 import CalendarModal from './CalendarModal/CalendarModal'
-import Chart from './Chart'
 import CurrentStatusOfMedium from './CurrentStatusOfMedium'
-
 import { DownArrow } from 'assets/svgs'
-import Loading from 'routes/_shared/Loading'
 import styles from './dashboard.module.scss'
+import { useMount } from 'react-use'
 
 const Dashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const currentStartDate = store.get('startDate')
   const currentEndDate = store.get('endDate')
-  const prevStartDate = store.get('prevStartDate')
-  const prevEndDate = store.get('prevEndDate')
 
-  const [dailyFetch, setDailyFetch] = useRecoilState(dailyFetchState)
   const [byChannelFetch, setByChannelFetch] = useRecoilState(byChannelFetchState)
-  const setDailyData = useSetRecoilState(dailyDataResultState)
-  const setPrevDailyData = useSetRecoilState(prevDailyDataResultState)
   const setByChannelData = useSetRecoilState(byChannelDataResultState)
   const [byChannelData] = useRecoilState(byChannelDataResultState)
 
   useMount(() => {
-    getDailyData(currentStartDate, currentEndDate).then((res) => {
-      setDailyData(res.data)
-    })
-    getPrevDailyData(prevStartDate, prevEndDate).then((res) => {
-      setPrevDailyData(res.data)
-    })
     getByChannelData(currentStartDate, currentEndDate, setByChannelData)
   })
-
-  const { isLoading: isDailyLoading } = useQuery(
-    ['getDailyData', currentStartDate, currentEndDate],
-    () => {
-      getDailyData(currentStartDate, currentEndDate).then((res) => {
-        setDailyData(res.data)
-      })
-    },
-    {
-      useErrorBoundary: true,
-      enabled: !!dailyFetch,
-      onSuccess: () => {
-        setDailyFetch(false)
-      },
-    }
-  )
-
-  const { data: prevDailyDataResult } = useQuery(
-    ['getPrveDailyData', prevStartDate, prevEndDate],
-    () => {
-      getPrevDailyData(prevStartDate, prevEndDate).then((res) => {
-        setPrevDailyData(res.data)
-      })
-    },
-    {
-      useErrorBoundary: true,
-      enabled: !!dailyFetch,
-      onSuccess: () => {
-        setDailyFetch(false)
-      },
-    }
-  )
 
   const { isLoading: isChannelLoading } = useQuery(
     ['getByChannelData', currentStartDate, currentEndDate],
@@ -97,12 +46,8 @@ const Dashboard = () => {
     setIsModalOpen(true)
   }
 
-  if (isDailyLoading || isChannelLoading) {
-    return <Loading />
-  }
-
   return (
-    <div>
+    <>
       <header className={styles.header}>
         <h2>대시보드</h2>
         <div className={styles.calendarContainer}>
@@ -118,19 +63,13 @@ const Dashboard = () => {
         </div>
       </header>
       <main className={styles.main}>
-        <div className={styles.adSectionWrapper}>
-          <h2 className={styles.adSectionTitle}>통합 광고 현황</h2>
-          <div className={styles.boardWrapper}>
-            <AdCardContent />
-            <Chart />
-          </div>
-        </div>
-        <div className={styles.currentStatusOfMediumSectionWrapper}>
-          <h2 className={styles.currentStatusOfMediumTitle}>매체 현황</h2>
+        <AdStatus />
+        <section className={styles.currentStatusOfMediumSectionWrapper}>
+          <h3 className={styles.currentStatusOfMediumTitle}>매체 현황</h3>
           {byChannelData.length > 0 && <CurrentStatusOfMedium />}
-        </div>
+        </section>
       </main>
-    </div>
+    </>
   )
 }
 export default Dashboard

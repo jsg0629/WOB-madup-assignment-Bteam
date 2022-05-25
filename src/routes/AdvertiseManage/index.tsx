@@ -1,12 +1,10 @@
 import { MouseEvent, useEffect, useState } from 'react'
-import { useQuery } from 'react-query'
 import store from 'store'
 import _ from 'lodash'
 
 import { IAdsItem } from 'types/advertiseManage'
 import { useRecoil } from 'hooks/state'
 import { adsListState } from 'states/adsItem'
-import { getAdsItemList } from 'services/ads'
 
 import ContentCard from './ContentCard'
 import styles from './advertiseManage.module.scss'
@@ -15,6 +13,7 @@ import Container from 'routes/_shared/Container'
 import DropDown from 'routes/_shared/DropDown'
 import Loading from 'routes/_shared/Loading'
 import { filterAdsItems } from './utils/filterAdsItems'
+import { useGetAdsList } from './utils/useGetAdsList'
 
 const SELECT_LIST = ['전체 광고', '진행 광고', '중지 광고']
 
@@ -24,23 +23,7 @@ const AdvertiseManage = (): JSX.Element => {
   const [visibleModal, setVisibleModal] = useState(false)
   const [selectedAdItem, setSelectedAdItem] = useState<IAdsItem | null>(null)
 
-  // TODO: 분리
-  const { isLoading, data } = useQuery(
-    ['getAdsList'],
-    () =>
-      getAdsItemList().then((response): IAdsItem[] => {
-        return response.ads
-      }),
-    {
-      staleTime: 6 * 50 * 1000,
-      retryDelay: 7000,
-      useErrorBoundary: true,
-      select: (value): IAdsItem[] => {
-        if (!value.length) return []
-        return value
-      },
-    }
-  )
+  const { data, isLoading } = useGetAdsList()
 
   useEffect(() => {
     const localStatus = store.get('adsStatus')
@@ -76,6 +59,7 @@ const AdvertiseManage = (): JSX.Element => {
       return <ContentCard key={value.id} adsItem={value} handleOpenModal={handleOpenModal} />
     })
 
+  // TODO: 메인 헤더
   return (
     <main className={styles.main}>
       <header className={styles.mainHeader}>
@@ -83,13 +67,7 @@ const AdvertiseManage = (): JSX.Element => {
       </header>
       <Container>
         <header className={styles.containerHeader}>
-          <DropDown
-            selectName='adsStatus'
-            size='medium'
-            selectList={SELECT_LIST}
-            setCurrentSelect={setCurrentSelect}
-            currentSelect={currentSelect}
-          />
+          <DropDown selectName='adsStatus' size='medium' selectList={SELECT_LIST} setCurrentSelect={setCurrentSelect} />
 
           <button type='button' className={styles.headerButton} onClick={handleOpenModal}>
             광고 만들기
