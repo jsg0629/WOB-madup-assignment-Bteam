@@ -15,7 +15,7 @@ export const getDailyData = (currentStartDate: string, currentEndDate: string, s
 
 export const getPrevDailyData = (currentStartDate: string, currentEndDate: string, setPrevDailyData: Function) => {
   return axios
-    .get(`${DATA_URL2}daily?date_gte=${currentStartDate}&date_lte=${currentEndDate}`)
+    .get(`${DATA_URL}daily?date_gte=${currentStartDate}&date_lte=${currentEndDate}`)
     .then((res) => setPrevDailyData(res.data))
 }
 
