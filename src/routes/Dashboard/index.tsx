@@ -4,13 +4,14 @@ import { useRecoilState } from 'recoil'
 import store from 'store'
 
 import { byChannelDataResultState, byChannelFetchState, dailyDataResultState, dailyFetchState } from 'states/dashboard'
+import { getDailyData, getByChannelData } from 'services/ads'
 
 import CalendarModal from './CalendarModal/CalendarModal'
 import AdTop from './AdTop'
 import Chart from './Chart'
 import styles from './dashboard.module.scss'
 import CurrentStatusOfMedium from './CurrentStatusOfMedium'
-import { getDailyData, getByChannelData } from 'services/ads'
+import { useMount } from 'react-use'
 
 const Dashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -18,13 +19,21 @@ const Dashboard = () => {
   const currentEndDate = store.get('endDate')
   const [dailyFetch, setDailyFetch] = useRecoilState(dailyFetchState)
   const [byChannelFetch, setByChannelFetch] = useRecoilState(byChannelFetchState)
-  const [dailyData, setDailyData] = useRecoilState(dailyDataResultState)
-  const [byChannelData, setByChannelData] = useRecoilState(byChannelDataResultState)
+  const [, setDailyData] = useRecoilState(dailyDataResultState)
+  const [, setByChannelData] = useRecoilState(byChannelDataResultState)
 
-  const { data: dailyDataResult } = useQuery(
+  useMount(() => {
+    getDailyData(currentStartDate, currentEndDate).then((res) => {
+      setDailyData(res.data)
+    })
+  })
+
+  const { isLoading: isDailyLoading } = useQuery(
     ['getDailyData', currentStartDate, currentEndDate],
     () => {
-      getDailyData(currentStartDate, currentEndDate, setDailyData)
+      getDailyData(currentStartDate, currentEndDate).then((res) => {
+        setDailyData(res.data)
+      })
     },
     {
       useErrorBoundary: true,
@@ -36,7 +45,7 @@ const Dashboard = () => {
     }
   )
 
-  const { data: byChannelDataResult } = useQuery(
+  const { isLoading: isChannelLoading } = useQuery(
     ['getByChannelData', currentStartDate, currentEndDate],
     () => {
       getByChannelData(currentStartDate, currentEndDate, setByChannelData)
@@ -53,6 +62,10 @@ const Dashboard = () => {
 
   const handleOpenModal = () => {
     setIsModalOpen(true)
+  }
+
+  if (isDailyLoading || isChannelLoading) {
+    return <div>Loading...</div>
   }
 
   return (
