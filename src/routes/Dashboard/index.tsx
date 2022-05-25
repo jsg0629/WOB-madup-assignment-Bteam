@@ -3,28 +3,56 @@ import { useQuery } from 'react-query'
 import { useRecoilState } from 'recoil'
 import store from 'store'
 
-import { byChannelDataResultState, byChannelFetchState, dailyDataResultState, dailyFetchState } from 'states/dashboard'
+import {
+  byChannelDataResultState,
+  byChannelFetchState,
+  dailyDataResultState,
+  dailyFetchState,
+  prevDailyDataResultState,
+} from 'states/dashboard'
 
 import CalendarModal from './CalendarModal/CalendarModal'
 import AdTop from './AdTop'
 import Chart from './Chart'
 import styles from './dashboard.module.scss'
 import CurrentStatusOfMedium from './CurrentStatusOfMedium'
-import { getDailyData, getByChannelData } from 'services/ads'
+import { getDailyData, getByChannelData, getPrevDailyData } from 'services/ads'
 
 const Dashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
+
   const currentStartDate = store.get('startDate')
   const currentEndDate = store.get('endDate')
+  const prevStartDate = store.get('prevStartDate')
+  const prevEndDate = store.get('prevEndDate')
+
   const [dailyFetch, setDailyFetch] = useRecoilState(dailyFetchState)
   const [byChannelFetch, setByChannelFetch] = useRecoilState(byChannelFetchState)
-  const [dailyData, setDailyData] = useRecoilState(dailyDataResultState)
+
+  const [, setDailyData] = useRecoilState(dailyDataResultState)
+  const [, setPrevDailyData] = useRecoilState(prevDailyDataResultState)
+
   const [byChannelData, setByChannelData] = useRecoilState(byChannelDataResultState)
 
   const { data: dailyDataResult } = useQuery(
     ['getDailyData', currentStartDate, currentEndDate],
     () => {
       getDailyData(currentStartDate, currentEndDate, setDailyData)
+    },
+    {
+      useErrorBoundary: true,
+      enabled: !!dailyFetch,
+      staleTime: 6 * 50 * 1000,
+      onSuccess: () => {
+        setDailyFetch(false)
+      },
+    }
+  )
+
+  const { data: prevDailyDataResult } = useQuery(
+    ['getPrveDailyData', prevStartDate, prevEndDate],
+    () => {
+      getPrevDailyData(prevStartDate, prevEndDate, setPrevDailyData)
     },
     {
       useErrorBoundary: true,
