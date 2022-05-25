@@ -3,11 +3,17 @@ import { useState, useMount } from 'hooks'
 import { useRecoilState, useSetRecoilState } from 'hooks/state'
 import store from 'store'
 
-import { byChannelDataResultState, byChannelFetchState, dailyDataResultState, dailyFetchState } from 'states/dashboard'
-import { getDailyData, getByChannelData } from 'services/ads'
+import {
+  byChannelDataResultState,
+  byChannelFetchState,
+  dailyDataResultState,
+  dailyFetchState,
+  prevDailyDataResultState,
+} from 'states/dashboard'
+import { getDailyData, getByChannelData, getPrevDailyData } from 'services/ads'
 
+import AdCardContent from './AdCardContent'
 import CalendarModal from './CalendarModal/CalendarModal'
-import AdTop from './AdTop'
 import Chart from './Chart'
 import CurrentStatusOfMedium from './CurrentStatusOfMedium'
 import Loading from 'routes/_shared/Loading'
@@ -15,16 +21,24 @@ import styles from './dashboard.module.scss'
 
 const Dashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
+
   const currentStartDate = store.get('startDate')
   const currentEndDate = store.get('endDate')
+  const prevStartDate = store.get('prevStartDate')
+  const prevEndDate = store.get('prevEndDate')
+
   const [dailyFetch, setDailyFetch] = useRecoilState(dailyFetchState)
   const [byChannelFetch, setByChannelFetch] = useRecoilState(byChannelFetchState)
   const setDailyData = useSetRecoilState(dailyDataResultState)
+  const setPrevDailyData = useSetRecoilState(prevDailyDataResultState)
   const setByChannelData = useSetRecoilState(byChannelDataResultState)
 
   useMount(() => {
     getDailyData(currentStartDate, currentEndDate).then((res) => {
       setDailyData(res.data)
+    })
+    getPrevDailyData(prevStartDate, prevEndDate).then((res) => {
+      setPrevDailyData(res.data)
     })
   })
 
@@ -38,7 +52,22 @@ const Dashboard = () => {
     {
       useErrorBoundary: true,
       enabled: !!dailyFetch,
-      staleTime: 6 * 50 * 1000,
+      onSuccess: () => {
+        setDailyFetch(false)
+      },
+    }
+  )
+
+  const { data: prevDailyDataResult } = useQuery(
+    ['getPrveDailyData', prevStartDate, prevEndDate],
+    () => {
+      getPrevDailyData(prevStartDate, prevEndDate).then((res) => {
+        setPrevDailyData(res.data)
+      })
+    },
+    {
+      useErrorBoundary: true,
+      enabled: !!dailyFetch,
       onSuccess: () => {
         setDailyFetch(false)
       },
@@ -87,7 +116,7 @@ const Dashboard = () => {
         <div className={styles.adSectionWrapper}>
           <h2 className={styles.adSectionTitle}>통합 광고 현황</h2>
           <div className={styles.boardWrapper}>
-            <AdTop />
+            <AdCardContent />
             <Chart />
           </div>
         </div>
