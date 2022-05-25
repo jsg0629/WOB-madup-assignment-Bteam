@@ -69,9 +69,6 @@ const CurrentStatusOfMedium = () => {
     }
     return result
   }
-  // console.log(reducedAllChannelDataObj, 'reducedAllChannelDataObj')
-  // console.log(reducedAllChannelDataArr, 'reducedAllChannelDataArr')
-  // console.log(createVictoryBarData('facebook'), 'createVictoryBarData')
 
   const CalculatingSumOfColumns = (column: string) => {
     return (
@@ -82,14 +79,20 @@ const CurrentStatusOfMedium = () => {
     )
   }
   return (
-    <div className={styles.currentStatusOfMediumContainer}>
-      <div className={styles.rechartsContainer}>
-        <Recharts createVictoryBarData={createVictoryBarData} />
+    <section className={styles.currentStatusOfMediumSectionWrapper}>
+      <h3 className={styles.currentStatusOfMediumTitle}>매체 현황</h3>
+      <div className={styles.currentStatusOfMediumContainer}>
+        <div className={styles.rechartsContainer}>
+          <Recharts createVictoryBarData={createVictoryBarData} />
+        </div>
+        <div className={styles.tableContainer}>
+          <Table
+            reducedAllChannelDataArr={reducedAllChannelDataArr}
+            CalculatingSumOfColumns={CalculatingSumOfColumns}
+          />
+        </div>
       </div>
-      <div className={styles.tableContainer}>
-        <Table reducedAllChannelDataArr={reducedAllChannelDataArr} CalculatingSumOfColumns={CalculatingSumOfColumns} />
-      </div>
-    </div>
+    </section>
   )
 }
 
