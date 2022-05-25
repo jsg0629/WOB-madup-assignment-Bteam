@@ -1,6 +1,6 @@
-import { useState } from 'react'
 import { useQuery } from 'react-query'
-import { useRecoilState } from 'recoil'
+import { useState, useMount } from 'hooks'
+import { useRecoilState, useSetRecoilState } from 'hooks/state'
 import store from 'store'
 
 import { byChannelDataResultState, byChannelFetchState, dailyDataResultState, dailyFetchState } from 'states/dashboard'
@@ -9,9 +9,9 @@ import { getDailyData, getByChannelData } from 'services/ads'
 import CalendarModal from './CalendarModal/CalendarModal'
 import AdTop from './AdTop'
 import Chart from './Chart'
-import styles from './dashboard.module.scss'
 import CurrentStatusOfMedium from './CurrentStatusOfMedium'
-import { useMount } from 'react-use'
+import Loading from 'routes/_shared/Loading'
+import styles from './dashboard.module.scss'
 
 const Dashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -19,8 +19,8 @@ const Dashboard = () => {
   const currentEndDate = store.get('endDate')
   const [dailyFetch, setDailyFetch] = useRecoilState(dailyFetchState)
   const [byChannelFetch, setByChannelFetch] = useRecoilState(byChannelFetchState)
-  const [, setDailyData] = useRecoilState(dailyDataResultState)
-  const [, setByChannelData] = useRecoilState(byChannelDataResultState)
+  const setDailyData = useSetRecoilState(dailyDataResultState)
+  const setByChannelData = useSetRecoilState(byChannelDataResultState)
 
   useMount(() => {
     getDailyData(currentStartDate, currentEndDate).then((res) => {
@@ -65,7 +65,7 @@ const Dashboard = () => {
   }
 
   if (isDailyLoading || isChannelLoading) {
-    return <div>Loading...</div>
+    return <Loading />
   }
 
   return (
