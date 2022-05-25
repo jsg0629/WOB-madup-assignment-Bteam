@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import { VictoryBar, VictoryChart, VictoryAxis, VictoryStack, VictoryTheme, VictoryVoronoiContainer } from 'victory'
 import styles from './CurrentStatusOfMedium.module.scss'
+import { IVictoryBarData } from 'types/dashboard'
 
 const Recharts = ({ createVictoryBarData }: { createVictoryBarData: Function }) => {
   const CHART_STYLE = {
@@ -12,10 +13,6 @@ const Recharts = ({ createVictoryBarData }: { createVictoryBarData: Function }) 
       barWidth: 30,
       x: 'xAxis',
       y: 'yAxis',
-      //   animate: { // 적용이 왜 안될까요,,, 달력을 클릭해야 모션이 생기네요
-      //     duration: 2000,
-      //     onLoad: { duration: 1000 },
-      //   },
     },
   }
   return (
@@ -28,23 +25,13 @@ const Recharts = ({ createVictoryBarData }: { createVictoryBarData: Function }) 
         containerComponent={
           <VictoryVoronoiContainer
             labels={({ datum }) => {
-              if (datum._stack === 1) {
-                const value = createVictoryBarData('google').filter((item: any) => item.xAxis === datum.xName)
-                return `${value[0].yAxis}%`
-              }
-              if (datum._stack === 2) {
-                const value = createVictoryBarData('facebook').filter((item: any) => item.xAxis === datum.xName)
-                return `${value[0].yAxis}%`
-              }
-              if (datum._stack === 3) {
-                const value = createVictoryBarData('naver').filter((item: any) => item.xAxis === datum.xName)
-                return `${value[0].yAxis}%`
-              }
-              if (datum._stack === 4) {
-                const value = createVictoryBarData('kakao').filter((item: any) => item.xAxis === datum.xName)
-                return `${value[0].yAxis}%`
-              }
-              return 'no result'
+              let channel = ''
+              if (datum._stack === 1) channel = 'google'
+              if (datum._stack === 2) channel = 'facebook'
+              if (datum._stack === 3) channel = 'naver'
+              if (datum._stack === 4) channel = 'kakao'
+              const value = createVictoryBarData(channel).filter((item: IVictoryBarData) => item.xAxis === datum.xName)
+              return `${value[0].yAxis}%`
             }}
           />
         }

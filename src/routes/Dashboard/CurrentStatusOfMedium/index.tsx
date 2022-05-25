@@ -1,12 +1,15 @@
 import styles from './CurrentStatusOfMedium.module.scss'
 import { useRecoilState } from 'recoil'
-import { byChannelDataResultState } from 'states/dashboard'
+import { byChannelDataResultState, dailyDataResultState } from 'states/dashboard'
 import Recharts from './Recharts'
 import Table from './Table'
+import { IVictoryBarData } from 'types/dashboard'
 
 const CurrentStatusOfMedium = () => {
   const [byChannelData] = useRecoilState(byChannelDataResultState)
+  const [dailyData] = useRecoilState(dailyDataResultState)
 
+  console.log(dailyData)
   const reduceChannelData = (_channel: string) => {
     const fiteredData = byChannelData?.filter((el: { channel: string }) => el.channel === _channel)
     return fiteredData.reduce((acc, cur, i) => {
@@ -52,7 +55,7 @@ const CurrentStatusOfMedium = () => {
   ]
 
   const createVictoryBarData = (channel: string) => {
-    const result = []
+    const result: IVictoryBarData[] = []
     for (const key in reducedAllChannelDataObj[channel]) {
       if (key === 'sales' || key === 'cost' || key === 'imp' || key === 'click' || key === 'convValue')
         result.push({
@@ -81,6 +84,7 @@ const CurrentStatusOfMedium = () => {
       reducedAllChannelDataObj.kakao[column]
     )
   }
+
   return (
     <div className={styles.currentStatusOfMediumContainer}>
       <div className={styles.rechartsContainer}>

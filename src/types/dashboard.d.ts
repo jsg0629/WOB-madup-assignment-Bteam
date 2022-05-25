@@ -26,3 +26,8 @@ export interface IByChannelData {
   cpa?: number
   roas: number
 }
+
+export interface IVictoryBarData {
+  xAxis: string
+  yAxis: number
+}
