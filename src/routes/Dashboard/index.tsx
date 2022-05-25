@@ -16,6 +16,9 @@ import AdCardContent from './AdCardContent'
 import CalendarModal from './CalendarModal/CalendarModal'
 import Chart from './Chart'
 import CurrentStatusOfMedium from './CurrentStatusOfMedium'
+
+import { getDailyData, getByChannelData } from 'services/ads'
+import { DownArrow } from 'assets/svgs'
 import Loading from 'routes/_shared/Loading'
 import styles from './dashboard.module.scss'
 
@@ -103,7 +106,8 @@ const Dashboard = () => {
         <h2>대시보드</h2>
         <div className={styles.calendarContainer}>
           <button className={styles.calendarOpenButton} type='button' onClick={handleOpenModal}>
-            {`${currentStartDate} - ${currentEndDate}`}
+            {`${currentStartDate} ~ ${currentEndDate}`}
+            <DownArrow />
           </button>
           {isModalOpen && (
             <div className={styles.calendar}>
