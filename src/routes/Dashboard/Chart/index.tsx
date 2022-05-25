@@ -4,7 +4,7 @@ import { useRecoilState } from 'hooks/state'
 import { dailyDataResultState } from 'states/dashboard'
 import { convertData } from './utils'
 
-import SelectBox from 'routes/AdvertiseManage/SelectBox'
+import DropDown from 'routes/_shared/DropDown'
 import ChartItem from './ChartItem'
 import styles from './chart.module.scss'
 
@@ -20,35 +20,46 @@ const Chart = (): JSX.Element => {
 
   const { roas, cost, imp, click, conv, sales } = convertData(dailyData)
 
-  const firstData =
-    {
-      ROAS: roas,
-      광고비: cost,
-      '노출 수': imp,
-      '클릭 수': click,
-      '전환 수': conv,
-      매출: sales,
-    }[firstSelect] ?? null
+  const getData = (dataKey: string) => {
+    return (
+      {
+        ROAS: roas,
+        광고비: cost,
+        '노출 수': imp,
+        '클릭 수': click,
+        '전환 수': conv,
+        매출: sales,
+      }[dataKey] ?? null
+    )
+  }
 
-  const secondData =
-    {
-      ROAS: roas,
-      광고비: cost,
-      '노출 수': imp,
-      '클릭 수': click,
-      '전환 수': conv,
-      매출: sales,
-    }[secondSelect] ?? null
+  const firstData = getData(firstSelect)
+  const secondData = getData(secondSelect)
 
   return (
     <>
-      <div className={styles.selectBoxesContainer}>
-        <div className={styles.selectBoxWrapper}>
-          <SelectBox selectList={SELECT_LIST} currentSelect={firstSelect} setCurrentSelect={setFirstSelect} />
-          <SelectBox selectList={SELECT_LIST} currentSelect={secondSelect} setCurrentSelect={setSecondSelect} />
+      <div className={styles.dropDownsContainer}>
+        <div className={styles.dropDownWrapper}>
+          <DropDown
+            selectList={SELECT_LIST}
+            currentSelect={firstSelect}
+            setCurrentSelect={setFirstSelect}
+            size='small'
+          />
+          <DropDown
+            selectList={SELECT_LIST}
+            currentSelect={secondSelect}
+            setCurrentSelect={setSecondSelect}
+            size='small'
+          />
         </div>
         <div>
-          <SelectBox selectList={PERIOD_SELECT_LIST} currentSelect={periodSelect} setCurrentSelect={setPeriodSelect} />
+          <DropDown
+            selectList={PERIOD_SELECT_LIST}
+            currentSelect={periodSelect}
+            setCurrentSelect={setPeriodSelect}
+            size='small'
+          />
         </div>
       </div>
 
