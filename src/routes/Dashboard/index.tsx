@@ -10,7 +10,7 @@ import {
   dailyFetchState,
   prevDailyDataResultState,
 } from 'states/dashboard'
-import { getDailyData, getByChannelData, getPrevDailyData } from 'services/ads'
+import { getDailyData, getByChannelData } from 'services/ads'
 
 import AdCardContent from './AdCardContent'
 import CalendarModal from './CalendarModal/CalendarModal'
@@ -39,7 +39,7 @@ const Dashboard = () => {
     getDailyData(currentStartDate, currentEndDate).then((res) => {
       setDailyData(res.data)
     })
-    getPrevDailyData(prevStartDate, prevEndDate).then((res) => {
+    getDailyData(prevStartDate, prevEndDate).then((res) => {
       setPrevDailyData(res.data)
     })
   })
@@ -61,9 +61,9 @@ const Dashboard = () => {
   )
 
   const { data: prevDailyDataResult } = useQuery(
-    ['getPrveDailyData', prevStartDate, prevEndDate],
+    ['getPrevDailyData', prevStartDate, prevEndDate],
     () => {
-      getPrevDailyData(prevStartDate, prevEndDate).then((res) => {
+      getDailyData(prevStartDate, prevEndDate).then((res) => {
         setPrevDailyData(res.data)
       })
     },
