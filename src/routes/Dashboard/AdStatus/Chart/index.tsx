@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import store from 'store'
 
 import { useRecoilState } from 'hooks/state'
@@ -17,45 +17,42 @@ const Chart = (): JSX.Element => {
 
   const currentStartDate = store.get('startDate')
   const currentEndDate = store.get('endDate')
+  const currentPeriodSelect = store.get('c')
 
   const [firstSelect, setFirstSelect] = useState(SELECT_LIST[0])
   const [secondSelect, setSecondSelect] = useState(SELECT_LIST[1])
   const [periodSelect, setPeriodSelect] = useState(PERIOD_SELECT_LIST[0])
 
-  const { roas, cost, imp, click, conv, sales } = convertDailyData(dailyData)
+  const { roasDaily, costDaily, impDaily, clickDaily, convDaily, salesDaily } = convertDailyData(dailyData)
+  const { roasWeekly, costWeekly, impWeekly, clickWeekly, convWeekly, salesWeekly } = convertWeeklyData(
+    dailyData,
+    currentStartDate,
+    currentEndDate
+  )
 
   const listForDropDownA = SELECT_LIST.filter((title) => title !== '없음' && title !== secondSelect)
   const listForDropDownB = SELECT_LIST.filter((title) => title !== firstSelect)
 
-  const getDailyData = (dataKey: string) => {
-    return (
-      {
-        ROAS: roas,
-        광고비: cost,
-        '노출 수': imp,
-        '클릭 수': click,
-        '전환 수': conv,
-        매출: sales,
-      }[dataKey] ?? null
-    )
-  }
-
   let firstData = null
   let secondData = null
 
-  if (periodSelect === '일간') {
+  if (currentPeriodSelect === '일간') {
+    const getDailyData = (dataKey: string) => {
+      return (
+        {
+          ROAS: roasDaily,
+          광고비: costDaily,
+          '노출 수': impDaily,
+          '클릭 수': clickDaily,
+          '전환 수': convDaily,
+          매출: salesDaily,
+        }[dataKey] ?? null
+      )
+    }
+
     firstData = getDailyData(firstSelect)
     secondData = getDailyData(secondSelect)
   } else {
-    const {
-      roas: roasWeekly,
-      cost: costWeekly,
-      imp: impWeekly,
-      click: clickWeekly,
-      conv: convWeekly,
-      sales: salesWeekly,
-    } = convertWeeklyData(dailyData, currentStartDate, currentEndDate)
-
     const getWeeklyData = (dataKey: string) => {
       return (
         {
