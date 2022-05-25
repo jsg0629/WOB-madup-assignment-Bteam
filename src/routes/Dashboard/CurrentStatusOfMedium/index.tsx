@@ -1,10 +1,12 @@
-import styles from './currentStatusOfMedium.module.scss'
 import { useRecoilState } from 'recoil'
+
 import { byChannelDataResultState } from 'states/dashboard'
-import Recharts from './Recharts'
-import Table from './Table'
 import { IVictoryBarData } from 'types/dashboard'
 import { channelDataProcess } from 'utils/adDataProcess'
+
+import Recharts from './Recharts'
+import Table from './Table'
+import styles from './currentStatusOfMedium.module.scss'
 
 const CurrentStatusOfMedium = () => {
   const [byChannelData] = useRecoilState(byChannelDataResultState)
@@ -41,9 +43,6 @@ const CurrentStatusOfMedium = () => {
     }
     return result
   }
-  // console.log(combinedAllChannelDataObj, 'combinedAllChannelDataObj')
-  // console.log(reducedAllChannelDataArr, 'reducedAllChannelDataArr')
-  // console.log(createVictoryBarData('facebook'), 'createVictoryBarData')
 
   const calculatingSumOfColumns = (column: string) => {
     return (
@@ -55,17 +54,20 @@ const CurrentStatusOfMedium = () => {
   }
 
   return (
-    <div className={styles.currentStatusOfMediumContainer}>
-      <div className={styles.rechartsContainer}>
-        <Recharts createVictoryBarData={createVictoryBarData} />
-      </div>
-      <div className={styles.tableContainer}>
-        <Table
+    <section className={styles.currentStatusOfMediumSectionWrapper}>
+      <h3 className={styles.currentStatusOfMediumTitle}>매체 현황</h3>
+      <div className={styles.currentStatusOfMediumContainer}>
+        <div className={styles.rechartsContainer}>
+          <Recharts createVictoryBarData={createVictoryBarData} />
+        </div>
+        <div className={styles.tableContainer}>
+          <Table
           combinedAllChannelDataArr={combinedAllChannelDataArr}
           calculatingSumOfColumns={calculatingSumOfColumns}
         />
+        </div>
       </div>
-    </div>
+    </section>
   )
 }
 
