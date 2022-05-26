@@ -4,7 +4,10 @@
 
 🗓️ 05.23 ~ 05.26   
 [👨🏻‍💻 github](https://github.com/POB-Frontend-4th-6team/WOB-madup-assignment-Bteam)   
-[배포 링크](https://mapup6b.herokuapp.com/)
+[😊 배포 링크](https://mapup6b.herokuapp.com/)   
+
+개발 로그와 자세한 내용은 팀 노션을 참고해주세요!    
+[📝 팀 노션](https://www.notion.so/6-B-7ca6a163a1404fd4891bfd98e7384482)
 
 ## 사용 기술
 
