@@ -1,13 +1,12 @@
 # WOB-madup-assignment-Bteam
-매드업 기업과제 (팀B)
+
+## 매드업 기업과제 (팀B)
 
 🗓️ 05.23 ~ 05.26   
 [👨🏻‍💻 github](https://github.com/POB-Frontend-4th-6team/WOB-madup-assignment-Bteam)
 [배포 링크](https://mapup6b.herokuapp.com/)
 
 ## 사용 기술
-
----
 
 `TypeScript`, `React`, `Recoil`
 
@@ -16,8 +15,6 @@
 `json-server`
 
 ## 파일 구조
-
----
 
 ```
 ├─src
@@ -61,8 +58,6 @@
 
 ## 실행 방법
 
----
-
 - repository clone
 
 ```
@@ -96,8 +91,6 @@ yarn serve-json
 ```
 
 ## 기능 소개
-
----
 
 ### 대시보드
 
