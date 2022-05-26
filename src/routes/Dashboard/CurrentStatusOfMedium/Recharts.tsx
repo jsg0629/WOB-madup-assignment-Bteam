@@ -10,6 +10,7 @@ import {
 } from 'victory'
 
 import styles from './currentStatusOfMedium.module.scss'
+import { IVictoryBarData } from 'types/dashboard'
 
 const Recharts = ({ createVictoryBarData }: { createVictoryBarData: Function }) => {
   const CHART_STYLE = {
@@ -37,23 +38,13 @@ const Recharts = ({ createVictoryBarData }: { createVictoryBarData: Function }) 
         containerComponent={
           <VictoryVoronoiContainer
             labels={({ datum }) => {
-              if (datum._stack === 1) {
-                const value = createVictoryBarData('google').filter((item: any) => item.xAxis === datum.xName)
-                return `${value[0].yAxis}%`
-              }
-              if (datum._stack === 2) {
-                const value = createVictoryBarData('facebook').filter((item: any) => item.xAxis === datum.xName)
-                return `${value[0].yAxis}%`
-              }
-              if (datum._stack === 3) {
-                const value = createVictoryBarData('naver').filter((item: any) => item.xAxis === datum.xName)
-                return `${value[0].yAxis}%`
-              }
-              if (datum._stack === 4) {
-                const value = createVictoryBarData('kakao').filter((item: any) => item.xAxis === datum.xName)
-                return `${value[0].yAxis}%`
-              }
-              return 'no result'
+              let channel = ''
+              if (datum._stack === 1) channel = 'google'
+              if (datum._stack === 2) channel = 'facebook'
+              if (datum._stack === 3) channel = 'naver'
+              if (datum._stack === 4) channel = 'kakao'
+              const value = createVictoryBarData(channel).filter((item: IVictoryBarData) => item.xAxis === datum.xName)
+              return `${value[0].yAxis}%`
             }}
             labelComponent={
               <VictoryTooltip
