@@ -29,15 +29,6 @@ const AdvertiseManage = (): JSX.Element => {
     const localStatus = store.get('adsStatus')
     if (localStatus) setCurrentSelect(localStatus)
     if (data && data.length > 0) {
-      const adsLocalList = store.get('adsList')
-      if (adsLocalList?.length > 0) {
-        let tempAds = adsLocalList.concat(data)
-        tempAds = _.uniqBy(tempAds, 'id')
-        store.set('adsList', tempAds)
-        setAdsList(tempAds)
-        return
-      }
-
       store.set('adsList', data)
       setAdsList(data)
     }
