@@ -30,7 +30,7 @@ const Dashboard = () => {
     setTimeout(() => {
       getByChannelData(currentStartDate, currentEndDate, setByChannelData)
       setLoading(false)
-    }, 2000)
+    }, 600)
   })
 
   const { isLoading } = useQuery(
@@ -40,7 +40,7 @@ const Dashboard = () => {
       setTimeout(() => {
         getByChannelData(currentStartDate, currentEndDate, setByChannelData)
         setLoading(false)
-      }, 2000)
+      }, 600)
     },
     {
       useErrorBoundary: true,
@@ -76,9 +76,11 @@ const Dashboard = () => {
       <main className={styles.main}>
         {isLoading && <Loading />}
         <AdStatus />
-        <section className={styles.currentStatusOfMediumWrapper}>
+        <section className={styles.currentStatusOfMediumSection}>
           <h3 className={styles.currentStatusOfMediumTitle}>매체 현황</h3>
-          {loading ? <Loading /> : byChannelData.length > 0 && <CurrentStatusOfMediumContents />}
+          <div className={styles.currentStatusOfMediumContentsContainer}>
+            {loading ? <Loading /> : byChannelData.length > 0 && <CurrentStatusOfMediumContents />}
+          </div>
         </section>
       </main>
     </>

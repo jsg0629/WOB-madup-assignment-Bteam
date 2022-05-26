@@ -1,5 +1,13 @@
 /* eslint-disable no-underscore-dangle */
-import { VictoryBar, VictoryChart, VictoryAxis, VictoryStack, VictoryTheme, VictoryVoronoiContainer } from 'victory'
+import {
+  VictoryBar,
+  VictoryChart,
+  VictoryAxis,
+  VictoryStack,
+  VictoryTheme,
+  VictoryVoronoiContainer,
+  VictoryTooltip,
+} from 'victory'
 
 import styles from './currentStatusOfMediumContents.module.scss'
 import { IVictoryBarData } from 'types/dashboard'
@@ -14,6 +22,10 @@ const Recharts = ({ createVictoryBarData }: { createVictoryBarData: Function }) 
       barWidth: 30,
       x: 'xAxis',
       y: 'yAxis',
+      animate: {
+        duration: 2000,
+        onLoad: { duration: 1000 },
+      },
     },
   }
   return (
@@ -34,6 +46,15 @@ const Recharts = ({ createVictoryBarData }: { createVictoryBarData: Function }) 
               const value = createVictoryBarData(channel).filter((item: IVictoryBarData) => item.xAxis === datum.xName)
               return `${value[0].yAxis}%`
             }}
+            labelComponent={
+              <VictoryTooltip
+                flyoutStyle={{
+                  stroke: 'lightgray',
+                  fill: 'white',
+                }}
+                flyoutPadding={15}
+              />
+            }
           />
         }
       >

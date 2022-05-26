@@ -1,4 +1,18 @@
 {
+  "users": [
+    {
+      "id": 1,
+      "name": "WOB_6b 팀",
+      "email": "Team6B@wanted.com",
+      "services": [
+        {
+          "id": 1,
+          "title": "매드업"
+        }
+      ],
+      "marketingAgreed": "false"
+    }
+  ],
   "adlist": [
     {
       "id": 1,

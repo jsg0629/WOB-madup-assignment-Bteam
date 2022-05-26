@@ -54,7 +54,7 @@ const CurrentStatusOfMediumContents = () => {
   }
 
   return (
-    <div className={styles.currentStatusOfMediumContentsContainer}>
+    <div className={styles.currentStatusOfMediumContentsWrapper}>
       <div className={styles.rechartsContainer}>
         <Recharts createVictoryBarData={createVictoryBarData} />
       </div>
