@@ -8,7 +8,7 @@ import { getByChannelData } from 'services/ads'
 
 import AdStatus from './AdStatus'
 import CalendarModal from './CalendarModal/CalendarModal'
-import CurrentStatusOfMediumContents from './CurrentStatusOfMedium'
+import CurrentStatusOfMediumContents from './CurrentStatusOfMediumContents'
 import { DownArrow } from 'assets/svgs'
 import styles from './dashboard.module.scss'
 import Loading from 'routes/_shared/Loading'
