@@ -3,7 +3,7 @@
 ## 매드업 기업과제 (팀B)
 
 🗓️ 05.23 ~ 05.26   
-[👨🏻‍💻 github](https://github.com/POB-Frontend-4th-6team/WOB-madup-assignment-Bteam)
+[👨🏻‍💻 github](https://github.com/POB-Frontend-4th-6team/WOB-madup-assignment-Bteam)   
 [배포 링크](https://mapup6b.herokuapp.com/)
 
 ## 사용 기술
