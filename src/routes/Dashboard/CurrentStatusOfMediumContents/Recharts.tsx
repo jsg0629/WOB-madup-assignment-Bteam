@@ -9,7 +9,7 @@ import {
   VictoryTooltip,
 } from 'victory'
 
-import styles from './currentStatusOfMedium.module.scss'
+import styles from './currentStatusOfMediumContents.module.scss'
 import { IVictoryBarData } from 'types/dashboard'
 
 const Recharts = ({ createVictoryBarData }: { createVictoryBarData: Function }) => {

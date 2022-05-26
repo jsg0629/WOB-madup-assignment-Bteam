@@ -6,9 +6,9 @@ import { channelDataProcess } from 'utils/adDataProcess'
 
 import Recharts from './Recharts'
 import Table from './Table'
-import styles from './currentStatusOfMedium.module.scss'
+import styles from './currentStatusOfMediumContents.module.scss'
 
-const CurrentStatusOfMedium = () => {
+const CurrentStatusOfMediumContents = () => {
   const [byChannelData] = useRecoilState(byChannelDataResultState)
 
   const combinedAllChannelDataObj: any = {
@@ -54,21 +54,18 @@ const CurrentStatusOfMedium = () => {
   }
 
   return (
-    <section className={styles.currentStatusOfMediumSectionWrapper}>
-      <h3 className={styles.currentStatusOfMediumTitle}>매체 현황</h3>
-      <div className={styles.currentStatusOfMediumContainer}>
-        <div className={styles.rechartsContainer}>
-          <Recharts createVictoryBarData={createVictoryBarData} />
-        </div>
-        <div className={styles.tableContainer}>
-          <Table
-            combinedAllChannelDataArr={combinedAllChannelDataArr}
-            calculatingSumOfColumns={calculatingSumOfColumns}
-          />
-        </div>
+    <div className={styles.currentStatusOfMediumContentsWrapper}>
+      <div className={styles.rechartsContainer}>
+        <Recharts createVictoryBarData={createVictoryBarData} />
       </div>
-    </section>
+      <div className={styles.tableContainer}>
+        <Table
+          combinedAllChannelDataArr={combinedAllChannelDataArr}
+          calculatingSumOfColumns={calculatingSumOfColumns}
+        />
+      </div>
+    </div>
   )
 }
 
-export default CurrentStatusOfMedium
+export default CurrentStatusOfMediumContents

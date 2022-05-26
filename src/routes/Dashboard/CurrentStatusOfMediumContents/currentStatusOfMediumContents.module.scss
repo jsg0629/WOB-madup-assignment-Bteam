@@ -1,21 +1,6 @@
 @use '/src/styles/constants/colors';
 
-.currentStatusOfMediumSectionWrapper {
-  .currentStatusOfMediumTitle {
-    margin: 80px 0 10px 40px;
-    font-size: 16px;
-    font-weight: 700;
-    color: colors.$GRAY800;
-  }
-}
-
-.currentStatusOfMediumContainer {
-  padding: 40px;
-  margin: 0 40px 40px;
-  background-color: colors.$CONTENTS_BACKGROUND;
-  border-radius: 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 10%);
-
+.currentStatusOfMediumContentsWrapper {
   .tableContent {
     overflow: auto hidden;
     font-size: 12px;
