@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query'
-import { useState } from 'hooks'
+import { useState, useMount } from 'hooks'
 import { useRecoilState, useSetRecoilState } from 'hooks/state'
 import store from 'store'
 
@@ -8,10 +8,10 @@ import { getByChannelData } from 'services/ads'
 
 import AdStatus from './AdStatus'
 import CalendarModal from './CalendarModal/CalendarModal'
-import CurrentStatusOfMedium from './CurrentStatusOfMedium'
+import CurrentStatusOfMediumContents from './CurrentStatusOfMedium'
 import { DownArrow } from 'assets/svgs'
 import styles from './dashboard.module.scss'
-import { useMount } from 'react-use'
+import Loading from 'routes/_shared/Loading'
 
 const Dashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -23,19 +23,30 @@ const Dashboard = () => {
   const setByChannelData = useSetRecoilState(byChannelDataResultState)
   const [byChannelData] = useRecoilState(byChannelDataResultState)
 
+  const [loading, setLoading] = useState(false)
+
   useMount(() => {
-    getByChannelData(currentStartDate, currentEndDate, setByChannelData)
+    setLoading(true)
+    setTimeout(() => {
+      getByChannelData(currentStartDate, currentEndDate, setByChannelData)
+      setLoading(false)
+    }, 2000)
   })
 
-  const { isLoading: isChannelLoading } = useQuery(
+  const { isLoading } = useQuery(
     ['getByChannelData', currentStartDate, currentEndDate],
     () => {
-      getByChannelData(currentStartDate, currentEndDate, setByChannelData)
+      setLoading(true)
+      setTimeout(() => {
+        getByChannelData(currentStartDate, currentEndDate, setByChannelData)
+        setLoading(false)
+      }, 2000)
     },
     {
       useErrorBoundary: true,
       enabled: !!byChannelFetch,
       staleTime: 6 * 50 * 1000,
+      retryDelay: 7000,
       onSuccess: () => {
         setByChannelFetch(false)
       },
@@ -63,10 +74,11 @@ const Dashboard = () => {
         </div>
       </header>
       <main className={styles.main}>
+        {isLoading && <Loading />}
         <AdStatus />
-        <section className={styles.currentStatusOfMediumSectionWrapper}>
+        <section className={styles.currentStatusOfMediumWrapper}>
           <h3 className={styles.currentStatusOfMediumTitle}>매체 현황</h3>
-          {byChannelData.length > 0 && <CurrentStatusOfMedium />}
+          {loading ? <Loading /> : byChannelData.length > 0 && <CurrentStatusOfMediumContents />}
         </section>
       </main>
     </>

@@ -14,7 +14,7 @@ interface IDropDownProps {
   size: 'large' | 'medium' | 'small'
 }
 
-const DropDown = ({ selectName, selectList, setCurrentSelect, size }: IDropDownProps): JSX.Element => {
+const DropDown = ({ selectName, selectList, setCurrentSelect, size }: IDropDownProps) => {
   const [isOpenSelect, setIsOpenSelect] = useState(false)
   const [isCategorySelect, setIsCategorySelect] = useState(false)
   const [categoryColor, setCategoryColor] = useState('')
@@ -63,15 +63,16 @@ const DropDown = ({ selectName, selectList, setCurrentSelect, size }: IDropDownP
         <DownArrow className={cx(styles.downArrowIcon, { [styles.selectMenuOpen]: isOpenSelect })} />
       </button>
       <ul>
-        {selectList.map((value) => {
-          return (
-            <li className={styles.option} key={value}>
-              <button type='button' data-value={value} onClick={handleListClick}>
-                {value}
-              </button>
-            </li>
-          )
-        })}
+        {isOpenSelect &&
+          selectList.map((value) => {
+            return (
+              <li className={styles.option} key={value}>
+                <button type='button' data-value={value} onClick={handleListClick}>
+                  {value}
+                </button>
+              </li>
+            )
+          })}
       </ul>
     </div>
   )

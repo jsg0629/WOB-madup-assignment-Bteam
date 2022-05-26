@@ -1,6 +1,6 @@
 @use '/src/styles/constants/colors';
 
-.currentStatusOfMediumContainer {
+.currentStatusOfMediumContentsContainer {
   padding: 40px;
   margin: 0 40px 40px;
   background-color: colors.$CONTENTS_BACKGROUND;
@@ -13,7 +13,7 @@
 
     table {
       width: 100%;
-      min-width: 100%;
+      min-width: 550px;
       margin-top: 60px;
       text-align: center;
       table-layout: fixed;

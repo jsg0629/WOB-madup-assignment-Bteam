@@ -1,6 +1,7 @@
 import { IByChannelData } from 'types/dashboard'
 import { roundToTwo, fomatting } from 'utils/num'
-import styles from './currentStatusOfMedium.module.scss'
+
+import styles from './currentStatusOfMediumContents.module.scss'
 
 const Table = ({
   combinedAllChannelDataArr,
