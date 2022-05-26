@@ -26,7 +26,7 @@ export const getDailyData = (currentStartDate: string, currentEndDate: string) =
       new Promise<AxiosResponse>((resolve) => {
         setTimeout(() => {
           resolve(value)
-        }, 2000)
+        }, 500)
       })
   )
 }
