@@ -11,7 +11,6 @@ import { convertValue } from './convertValue'
 import styles from './contentCard.module.scss'
 import { Trash } from 'assets/svgs'
 
-
 interface IContentCardProps {
   adsItem: IAdsItem
   handleOpenModal: (e: MouseEvent<HTMLButtonElement>) => void
