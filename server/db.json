@@ -15,20 +15,6 @@
   ],
   "adlist": [
     {
-      "id": 1,
-      "adType": "web",
-      "title": "매드업 레버 광고 1234",
-      "budget": 500000,
-      "status": "active",
-      "startDate": "2020-10-19T00:00:00",
-      "endDate": null,
-      "report": {
-        "cost": 267144117,
-        "convValue": 1157942685,
-        "roas": 433
-      }
-    },
-    {
       "id": 2,
       "adType": "web",
       "title": "매드업 레버 광고 12345",
@@ -58,16 +44,16 @@
     },
     {
       "id": 4,
-      "adType": "app",
-      "title": "매드업 앱광고 광고 9912",
-      "budget": 240000,
+      "adType": "web",
+      "title": "afaff",
+      "budget": 214124125125,
       "status": "active",
-      "startDate": "2022-02-10T00:00:00",
+      "startDate": "Thu, 26 May 2022 04:50:23 GMT",
       "endDate": null,
       "report": {
-        "cost": 9300222,
-        "convValue": 38234789,
-        "roas": 411
+        "cost": 0,
+        "convValue": 0,
+        "roas": 0
       }
     }
   ],
